@@ -1,0 +1,24 @@
+.landingPageStyles{
+    background-image: url("../../images/landing.jpg");
+	height: 100vh;
+    width: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.buttons{
+	height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+.vcenter{
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.link{
+	text-decoration: none;
+}
