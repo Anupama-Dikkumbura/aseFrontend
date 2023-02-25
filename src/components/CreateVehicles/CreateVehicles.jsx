@@ -12,11 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 
 
 const theme = createTheme();
 
-export default function CreateFuelStation(props) {
+export default function CreateVehicles(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,6 +25,12 @@ export default function CreateFuelStation(props) {
       email: data.get('email'),
       password: data.get('password'),
     });
+  };
+
+  const [vehicleType, setVehicleType] = React.useState('');
+
+  const handleVehicleTypeChange = (event) => {
+    setVehicleType(event.target.value);
   };
 
   return (
@@ -42,56 +49,26 @@ export default function CreateFuelStation(props) {
               margin="dense"
               required
               fullWidth
-              id="registrationNumber"
-              label="Registrtion Number"
-              name="registrationNumber"
+              id="vehicleNumber"
+              label="Vehicle Number"
+              name="vehicleNumber"
               autoFocus
             />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              name="address"
-              label="Address"
-              type="text"
-              id="address"
-            />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              name="stockPetrol92"
-              label="Petrol Stock 92(L)"
-              type="text"
-              id="stockPetrol92"
-            />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              name="stockPetrol95"
-              label="Petrol Stock 95(L)"
-              type="text"
-              id="stockPetrol95"
-            />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              name="diesal"
-              label="Diseal Stock(L)"
-              type="text"
-              id="diesal"
-            />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              name="superDiesal"
-              label="Super Diesal(L)"
-              type="text"
-              id="superDiesal"
-            />
+            <InputLabel id="demo-simple-select-label">Vehicle Type</InputLabel>
+            <Select
+                labelId="vehicleType"
+                id="vehicleType"
+                value={vehicleType}
+                label="Vehicle Type"
+                onChange={handleVehicleTypeChange}
+                
+                
+            >
+                <MenuItem value={"two-wheelers"}>Two Wheeler</MenuItem>
+                <MenuItem value={"three-wheelers"}>Three Wheeler</MenuItem>
+                <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
+                <MenuItem value={"heavy"}>Heavy</MenuItem>
+            </Select>
             <Button
               type="submit"
               fullWidth

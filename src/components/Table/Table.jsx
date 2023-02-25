@@ -89,50 +89,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: 'registrationNumber',
-    numeric: false,
-    disablePadding: true,
-    label: 'Registration No',
-  },
-  {
-    id: 'address',
-    numeric: false,
-    disablePadding: false,
-    label: 'Address',
-  },
-  {
-    id: 'stockPetrol92',
-    numeric: true,
-    disablePadding: false,
-    label: 'Petrol Stock 92(L)',
-  },
-  {
-    id: 'stockPetrol95',
-    numeric: true,
-    disablePadding: false,
-    label: 'Petrol Stock 95(L)',
-  },
-  {
-    id: 'diesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Diesal',
-  },
-  {
-    id: 'superDiesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Super Diesal',
-  },
-  {
-    id: 'action',
-    numeric: true,
-    disablePadding: false,
-    label: 'Action',
-  },
-];
 
 
 function EnhancedTableHead(props) {
@@ -141,7 +97,7 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
+  const tableheaders = props.tableHeaders;
   return (
     <TableHead>
       <TableRow>
@@ -156,7 +112,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {tableheaders.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -221,7 +177,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          {props.tableTitle}
         </Typography>
       )}
 
@@ -312,7 +268,7 @@ export default function EnhancedTable(props) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} tableTitle={props.tableTitle}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -326,6 +282,7 @@ export default function EnhancedTable(props) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              tableHeaders={props.tableheaders}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -397,7 +354,7 @@ export default function EnhancedTable(props) {
         label="Dense padding"
       />
       <Popup
-      title="Edit Fuel Station"
+      title={props.formTitle}
       children={props.editForm}
       openModal={openModal}
       setOpenModal={setOpenModal}

@@ -1,5 +1,7 @@
 .container{
     margin: 10px;
+    display: flex;
+    flex-direction: column;
 }
 .createButton{
     float: right;
@@ -7,5 +9,5 @@
 }
 
 .table{
-    margin-top: 50px;
+    
 }

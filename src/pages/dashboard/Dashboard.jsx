@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import SideMenu from '../../components/SideMenu/SideMenu';
+import Drawer from '../../components/drawer/Drawer';
 import FuelStations from '../fuelStations/FuelStations';
 import Landing from '../landing/Landing';
 import "./Dashboard.css";
@@ -8,8 +9,11 @@ import "./Dashboard.css";
 function Dashboard(props) {
   return (
     <div className='dashboardStyles'>
-        <SideMenu />
-        {props.content}
+        <Drawer content={props.content} pageTitle={props.pageTitle}/>
+        {/* <div className='dashboardContentStyles'>
+         {props.content}
+        </div> */}
+        
         
     </div>
   )

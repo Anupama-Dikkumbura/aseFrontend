@@ -3,9 +3,10 @@ import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import CreateFuelStation from '../../components/CreateFuelStation/CreateFuelStation';
+import CreateVehicles from '../../components/CreateVehicles/CreateVehicles';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
-import "./FuelStations.css";
+import "./customerVehicles.css";
 
 const headCells = [
   {
@@ -52,7 +53,7 @@ const headCells = [
   },
 ];
 
-function FuelStations() {
+function CustomerVehicles() {
   const [openModal, setOpenModal] = useState(false);
   const handleCreate = ()=>{
       return "Test"
@@ -70,11 +71,15 @@ function FuelStations() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable editForm={<CreateFuelStation btntext="Update"/>} tableheaders={headCells} tableTitle="Fuel Stations" formTitle="Edit Fuel Station"/>
+        <EnhancedTable 
+            editForm={<CreateVehicles btntext="Update"/>} 
+            tableheaders={headCells} 
+            tableTitle="Vehicles"
+            formTitle="Edit Vehicle"/>
       </div>
       <Popup
-      title="Create Fuel Station"
-      children={<CreateFuelStation btntext="Create"/>}
+      title="Create a Vehicle"
+      children={<CreateVehicles btntext="Create"/>}
       openModal={openModal}
       setOpenModal={setOpenModal}
       >
@@ -84,4 +89,4 @@ function FuelStations() {
 }
 
 
-export default FuelStations
+export default CustomerVehicles

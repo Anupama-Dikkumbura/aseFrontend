@@ -6,29 +6,31 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PersonIcon from '@mui/icons-material/Person';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import { useNavigate } from 'react-router-dom';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import "./SideMenu.css";
+import { MenuItem, Typography } from '@mui/material';
 
 function SideMenu() {
     const navigate = useNavigate();
-  return (
-    <Menu className="SideNav" onClick={({key})=>{
-        if(key ==="/signout"){
-            alert(key);
-        }else{
-            navigate(key);
-        }
-    }}
-    
-    items={[
+    const role = "customer";
+    const customer =[
         {label:"Dashboard",
         key:"/dashboard",
         icon: <DashboardOutlined/>},
-        {label:"Fuel Stations",
-        key:"/fuelstations",
+        {label:"My Vehicles",
+        key:"/vehicles",
+        icon: <DirectionsCarIcon/>},
+        {label:"Sign out",
+        key:"/signout",
+        icon: <PoweroffOutlined/>, danger: true},
+    ];
+    const fuelStation = [
+        {label:"Dashboard",
+        key:"/dashboard",
+        icon: <DashboardOutlined/>},
+        {label:"My Vehicles",
+        key:"/vehicles",
         icon: <LocalGasStationIcon/>},
-        {label:"Fuel Delivery",
-        key:"/fueldelivery",
-        icon: <LocalShippingIcon/>},
         {label:"Customers",
         key:"/customers",
         icon: <PersonIcon/>},
@@ -38,7 +40,48 @@ function SideMenu() {
         {label:"Sign out",
         key:"/signout",
         icon: <PoweroffOutlined/>, danger: true},
-        ]}></Menu>
+    ];
+    const headOffice = [
+        {label:"Dashboard",
+        key:"/dashboard",
+        icon: <DashboardOutlined/>},
+        {label:"Fuel Stations",
+        key:"/fuelstations",
+        icon: <LocalGasStationIcon/>},
+        {label:"Fuel Delivery",
+        key:"/fueldelivery",
+        icon: <LocalShippingIcon/>},
+        {label:"Sign out",
+        key:"/signout",
+        icon: <PoweroffOutlined/>, danger: true},
+        
+    ];
+    const items =[];
+    
+    const fun = (roles)=>{
+        if(role === "customer"){
+            return customer;
+        }else if(role=="fuel station"){
+            return fuelStation;
+        }else if(role=="head office"){
+            return headOffice;
+        }
+    };
+    console.log(fun(role));
+  return (
+            <Menu 
+                className="SideNav" 
+                onClick={({key})=>{
+                    if(key ==="/signout"){
+                        alert(key);
+                    }else{
+                        navigate(key);
+                    }
+                }}
+                items={customer}>
+                    <MenuItem>asd</MenuItem>
+            </Menu>
+    
   )
 }
 

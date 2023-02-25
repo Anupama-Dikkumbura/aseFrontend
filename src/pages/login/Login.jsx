@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -29,13 +30,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // console.log({
+    //   phone: data.get('phone'),
+    //   password: data.get('password'),
+    // });
+
+    try {
+      // make axios post request
+      const response = await axios.post ("http://localhost:5000/users/login",data,
+        {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        }
+      );
+      console.log(response);
+    } catch(error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -61,10 +76,10 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="phone"
+              label="Phone"
+              name="phone"
+              autoComplete="phone"
               autoFocus
             />
             <TextField
