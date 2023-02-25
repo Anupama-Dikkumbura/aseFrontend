@@ -22,6 +22,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import axios from 'axios';
+import EditIcon from '@mui/icons-material/Edit';
+import { Link } from 'react-router-dom';
+import Popup from '../Popup/Popup';
 
 const getFuelStations = ()=>{
         axios.get("http://localhost:5000/fuelstation") 
@@ -31,8 +34,6 @@ const getFuelStations = ()=>{
         })
         .catch(error => console.error(`Error: ${error}`))
     }
- 
-getFuelStations();
 
 function createData(name, calories, fat, carbs, protein) {
   return {
@@ -124,6 +125,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: 'Super Diesal',
+  },
+  {
+    id: 'action',
+    numeric: true,
+    disablePadding: false,
+    label: 'Action',
   },
 ];
 
@@ -239,7 +246,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
+  const [openModal, setOpenModal] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -357,6 +365,8 @@ export default function EnhancedTable() {
                       <TableCell align="right">{row.fat}</TableCell>
                       <TableCell align="right">{row.carbs}</TableCell>
                       <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{<div className='actionButtons'><Link onClick={()=> setOpenModal(true)}><EditIcon/></Link><Link><DeleteIcon/></Link></div>}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -386,6 +396,13 @@ export default function EnhancedTable() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
+      <Popup
+      title="Edit Fuel Station"
+      children={props.editForm}
+      openModal={openModal}
+      setOpenModal={setOpenModal}
+      >
+      </Popup>
     </Box>
   );
 }

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import AdminLogin from './pages/adminLogin/AdminLogin';
 import Dashboard from "./pages/dashboard/Dashboard";
+import DashboardContent from './pages/dashboardContent/DashboardContent';
 import FuelStationLogin from './pages/fuelStationLogin/FuelStaionLogin';
 import FuelStations from './pages/fuelStations/FuelStations';
 import Landing from './pages/landing/Landing';
@@ -18,7 +19,7 @@ function App() {
             <Route path="/register" element={<Register/>} />
             <Route path="/admin" element={<AdminLogin/>} />
             <Route path="/fuelstationlogin" element={<FuelStationLogin/>} />
-            <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="/dashboard" element={<Dashboard content={<DashboardContent />}/>} />
             <Route path="/fuelstations" element={<Dashboard content={<FuelStations />} />} />
             <Route path="/" element={<Landing />} />
             <Route path="/tes" element={<div>Hello</div>} />

@@ -21,7 +21,7 @@ function SideMenu() {
     
     items={[
         {label:"Dashboard",
-        key:"/dashborad",
+        key:"/dashboard",
         icon: <DashboardOutlined/>},
         {label:"Fuel Stations",
         key:"/fuelstations",
