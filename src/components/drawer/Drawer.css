@@ -1,0 +1,12 @@
+.navigateLinks{
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo{
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

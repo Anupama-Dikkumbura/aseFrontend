@@ -13,12 +13,13 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import "./Login.css"
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link className='links' color="inherit" to="http://localhost:3000">
         FuelIn
       </Link>{' '}
       {new Date().getFullYear()}
@@ -106,12 +107,12 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link className='links' href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="/register"  variant="body2">
+                <Link className='links' to="/register"  variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

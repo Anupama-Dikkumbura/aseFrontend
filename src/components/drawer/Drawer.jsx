@@ -6,16 +6,27 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import PersonIcon from '@mui/icons-material/Person';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import OilBarrelIcon from '@mui/icons-material/OilBarrel';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
+import { Link } from 'react-router-dom';
+import "./Drawer.css";
+import logo from "../../images/fuelinLogo.jpeg"
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+
 
 const drawerWidth = 240;
 
@@ -26,47 +37,186 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const role = "customer";
+
+  // filling station manager, head office,customer
+  const role = "filling station manager";
+
+  const headOfficeMenu = ()=>{
+    return(
+        <List>
+            <Link to="/dashboard" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <DashboardIcon color='primary' />
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link className='navigateLinks' to="/fuelstations">
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <LocalGasStationIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Fuel Stations"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link className='navigateLinks' to="/managers">
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <PersonIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Managers"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/schedule" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <AccessTimeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Schedule Delivery"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/signout" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <PowerSettingsNewIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign Out"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+        </List>
+    )
+  }
+
+  const fuelStationMenu = ()=>{
+    return(
+        <List>
+            <Link to="/dashboard" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <DashboardIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" />
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link className='navigateLinks' to="/fill">
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <OilBarrelIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Fill"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/customerrequests" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <RequestQuoteIcon color='primary' />
+                    </ListItemIcon>
+                    <ListItemText primary="Customer Requests"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/signout" className='navigateLinks' style={{bottom:"20"}}>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <PowerSettingsNewIcon color='primary' />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign Out"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+        </List>
+    )
+  }
+
+  const customerMenu = ()=>{
+    return(
+        <List>
+            <Link to="/dashboard" className='navigateLinks' >
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <DashboardIcon  />
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link className='navigateLinks' to="/vehicles">
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <DirectionsCarIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Vehicles"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/fuelrequests" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <AddBoxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Requests"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/signout" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <PowerSettingsNewIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign Out"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+        </List>
+    )
+  }
 
   const drawer = (
-    <div>
-      <Toolbar />
+    <div style={{backgroundColor: "#212121", height: "100vh", color:"white"}}>
+      {/* <Toolbar/> */}
+      {/* <div style={{ alignItems:"center", alignContent:"center", backgroundColor: "white", height:"20px"}}>
+        <img src={logo} className="logo"></img>
+      </div> */}
+      <div className='logo'>
+        <LocalGasStationIcon style={{ color: 'white' }}/>
+        <h1>FuelIn</h1>
+      </div>
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+        {role==="customer"? customerMenu():""}
+        {role==="head office"? headOfficeMenu():""}
+        {role==="filling station manager"? fuelStationMenu():""}
     </div>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <AppBar
         position="fixed"
+        style={{ background: '#212121'}}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -87,12 +237,12 @@ function ResponsiveDrawer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
+      
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }}}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
@@ -103,7 +253,7 @@ function ResponsiveDrawer(props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,},
           }}
         >
           {drawer}

@@ -1,14 +1,16 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 import SideMenu from '../../components/SideMenu/SideMenu';
 import Drawer from '../../components/drawer/Drawer';
-import FuelStations from '../fuelStations/FuelStations';
-import Landing from '../landing/Landing';
 import "./Dashboard.css";
+import Navbar from '../../components/Navbar/Navbar';
 
 function Dashboard(props) {
   return (
-    <div className='dashboardStyles'>
+    <>
+    {/* <div style={{zIndex: 2}}>
+        <Navbar />
+    </div> */}
+    <div className='dashboardStyles' style={{zIndex: 1}}>
         <Drawer content={props.content} pageTitle={props.pageTitle}/>
         {/* <div className='dashboardContentStyles'>
          {props.content}
@@ -16,12 +18,14 @@ function Dashboard(props) {
         
         
     </div>
+    </>
+    
   )
 }
 
 export function Content(props){
     return(
-        <div>sd</div>
+        <div></div>
     )
 }
 

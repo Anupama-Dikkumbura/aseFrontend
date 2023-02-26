@@ -10,21 +10,36 @@ import CustomerVehicles from './pages/customerVehicles/CustomerVehicles';
 import Landing from './pages/landing/Landing';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import FuelRequests from './pages/fuelRequests/FuelRequests';
+import Managers from './pages/Managers/Managers';
+import ScheduleDelivery from './pages/scheduleDelivery/ScheduleDelivery';
+import CustomerRequests from './pages/customerRequests/CustomerRequests';
+import Fill from './pages/fill/Fill';
 
 function App() {
   return (
     <div className="App">
         <CssBaseline />
         <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/admin" element={<AdminLogin/>} />
             <Route path="/fuelstationlogin" element={<FuelStationLogin/>} />
             <Route path="/dashboard" element={<Dashboard content={<DashboardContent />} pageTitle="Dashboard"/>} />
-            <Route path="/fuelstations" element={<Dashboard content={<FuelStations />} pageTitle="Fuel Stations"/>} />
+
+            {/* customer routes */}
             <Route path="/vehicles" element={<Dashboard content={<CustomerVehicles />} pageTitle="Vehicles"/>} />
-            <Route path="/" element={<Landing />} />
-            <Route path="/tes" element={<div>Hello</div>} />
+            <Route path="/fuelrequests" element={<Dashboard content={<FuelRequests />} pageTitle="Fuel Requests"/>} />
+
+           {/* Head Office routes */}
+           <Route path="/fuelstations" element={<Dashboard content={<FuelStations />} pageTitle="Fuel Stations"/>} />
+           <Route path="/managers" element={<Dashboard content={<Managers />} pageTitle="Managers"/>} />
+           <Route path="/schedule" element={<Dashboard content={<ScheduleDelivery />} pageTitle="Delivery Schedule"/>} />
+
+           {/* Filling station routes */}
+           <Route path="/customerrequests" element={<Dashboard content={<CustomerRequests />} pageTitle="Customer Requests"/>} />
+           <Route path="/fill" element={<Dashboard content={<Fill />} pageTitle="Fill"/>} />
         </Routes>
     </div>
 
