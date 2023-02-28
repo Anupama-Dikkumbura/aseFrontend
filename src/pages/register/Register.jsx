@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,10 +9,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from '../../api/axios';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Register.css"
-
+const REGISTER_URL='/users/register'
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -29,6 +29,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -42,16 +44,28 @@ export default function Register() {
     }
     try {
       // make axios post request
-      const response = await axios({
-        method: "post",
-        url: "http://localhost:5000/users/register",
-        withCredentials: false,
-        data: user
-      });
+      const response = await axios.post (REGISTER_URL,
+        // JSON.stringify({phone: phone,password: password})
+        user,
+        {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        });
+        console.log(JSON.stringify(response?.data));
+        const role = response?.data?.role;
+        console.log(role);
+        navigate("/login");
+      
     } catch(error) {
       console.log(error)
+      // if(!error?.response){
+      //   setErrMsg('No server response');
+      // }else if(error.response){
+      //   setErrMsg(error.response.message);
+      //   console.log(error.message);
+      // }
     }
-    console.log(user);
   };
 
   return (

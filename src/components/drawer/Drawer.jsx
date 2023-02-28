@@ -39,7 +39,7 @@ function ResponsiveDrawer(props) {
   };
 
   // filling station manager, head office,customer
-  const role = "filling station manager";
+  const role = "head office";
 
   const headOfficeMenu = ()=>{
     return(
@@ -58,7 +58,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <LocalGasStationIcon />
+                        <LocalGasStationIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Fuel Stations"/>
                     </ListItemButton>
@@ -68,7 +68,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <PersonIcon />
+                        <PersonIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Managers"/>
                     </ListItemButton>
@@ -78,7 +78,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <AccessTimeIcon />
+                        <AccessTimeIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Schedule Delivery"/>
                     </ListItemButton>
@@ -88,7 +88,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <PowerSettingsNewIcon />
+                        <PowerSettingsNewIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Sign Out"/>
                     </ListItemButton>
@@ -152,7 +152,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <DashboardIcon  />
+                        <DashboardIcon  color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Dashboard"/>
                     </ListItemButton>
@@ -162,7 +162,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <DirectionsCarIcon />
+                        <DirectionsCarIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Vehicles"/>
                     </ListItemButton>
@@ -172,7 +172,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <AddBoxIcon />
+                        <AddBoxIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Requests"/>
                     </ListItemButton>
@@ -182,7 +182,7 @@ function ResponsiveDrawer(props) {
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
-                        <PowerSettingsNewIcon />
+                        <PowerSettingsNewIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Sign Out"/>
                     </ListItemButton>

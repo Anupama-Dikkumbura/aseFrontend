@@ -1,8 +1,12 @@
 import React from 'react'
+import Cards from '../../components/Cards/Cards'
+import "./DashboardContent.css"
 
 function DashboardContent() {
   return (
-    <div>DashboardContent</div>
+    <div className='content'>
+      <Cards />
+    </div>
   )
 }
 

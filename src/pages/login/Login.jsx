@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, useState, useEffect, useRef, useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,9 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "../../api/axios";
 import "./Login.css"
+import AuthContext from '../../context/AuthProvider';
+const LOGIN_URL = '/users/login';
 
 function Copyright(props) {
   return (
@@ -31,26 +33,58 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // console.log({
-    //   phone: data.get('phone'),
-    //   password: data.get('password'),
-    // });
+  const navigate = useNavigate();
+  const {setAuth} = useContext(AuthContext);
+  const userRef = useRef();
+  const errRef = useRef();
+
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(()=>{
+    // useRef.current.focus();
+  },[])
+
+  useEffect(()=>{
+    setErrMsg('');
+  },[phone, password])
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
 
     try {
       // make axios post request
-      const response = await axios.post ("http://localhost:5000/users/login",data,
+      const response = await axios.post (LOGIN_URL,
+        // JSON.stringify({phone: phone,password: password})
+        data,
         {
           headers:{
             "Content-Type": "application/json",
           }
-        }
-      );
-      console.log(response);
+        });
+        console.log(JSON.stringify(response?.data));
+        const role = response?.data?.role;
+        console.log(role);
+        setAuth({phone, password, role});
+        setPhone('');
+        setPassword('');
+        navigate("/dashboard");
+      
     } catch(error) {
       console.log(error)
+      setErrMsg('Invalid Phone or Password. Try Again!')
+      // if(!error?.response){
+      //   setErrMsg('No server response');
+      // }else if(error.response){
+      //   setErrMsg(error.response.message);
+      //   console.log(error.message);
+      // }
+      errRef.current.focus();
     }
   };
 
@@ -73,6 +107,7 @@ export default function Login() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            
             <TextField
               margin="normal"
               required
@@ -82,6 +117,9 @@ export default function Login() {
               name="phone"
               autoComplete="phone"
               autoFocus
+              onChange={(e)=>setPhone(e.target.value)}
+              value={phone}
+              ref={userRef}
             />
             <TextField
               margin="normal"
@@ -91,8 +129,10 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              onChange={(e)=>setPassword(e.target.value)}
+              value={password}
             />
+            <p ref={errRef} className={errMsg?"errmsg":"offscreen"} style={{color: "red"}}>{errMsg}</p>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

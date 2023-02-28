@@ -12,7 +12,7 @@ function Landing() {
         <div className='contentWrapper'>
               <div className='textContent'>
                 <Typography style={{fontSize: "50px", fontWeight: "bold"}}>Welcome to FuelIn!</Typography>
-                <Typography>You can create an account and request your fuel need.
+                <Typography>Manage your liquid gold with a single click. You can now create an account and request the fuel you need.
                   </Typography>
               </div>
               <div className='buttons'>

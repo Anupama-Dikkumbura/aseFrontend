@@ -1,11 +1,14 @@
 import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import CreateFuelStation from '../../components/CreateFuelStation/CreateFuelStation';
+import FuelStationList from '../../components/CreateFuelStation/FuelStationList';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 import "./FuelStations.css";
+import axios from '../../api/axios';
+const GET_STATION_LIST_URL= "/fuelstation";
 
 const headCells = [
   {
@@ -52,12 +55,15 @@ const headCells = [
   },
 ];
 
-function FuelStations() {
+function FuelStations(){
   const [openModal, setOpenModal] = useState(false);
-  const handleCreate = ()=>{
-      return "Test"
-  }
-  
+  const [result, setResult] = useState([]);
+  const getStations = async ()=>{
+    await axios.get(GET_STATION_LIST_URL)
+    .then(res=>{
+      setResult(res.data);
+    });
+  };
   return (
     <div className='container'>
       <div style={{marginBottom: "10px"}}>
@@ -70,11 +76,12 @@ function FuelStations() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable editForm={<CreateFuelStation btntext="Update"/>} tableheaders={headCells} tableTitle="Fuel Stations" formTitle="Edit Fuel Station"/>
+          <FuelStationList 
+          tableheaders={headCells} />
       </div>
       <Popup
       title="Create Fuel Station"
-      children={<CreateFuelStation btntext="Create"/>}
+      children={<CreateFuelStation getStations={getStations} btntext="Create" openModal={openModal} setOpenModal={setOpenModal}/>}
       openModal={openModal}
       setOpenModal={setOpenModal}
       >
