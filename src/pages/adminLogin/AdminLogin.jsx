@@ -103,7 +103,7 @@ export default function FuelStationLogin() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          FuelIn Admin Login
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           
@@ -148,11 +148,6 @@ export default function FuelStationLogin() {
             <Grid item xs>
               <Link className='links' href="#" variant="body2">
                 Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link className='links' to="/register"  variant="body2">
-                {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>

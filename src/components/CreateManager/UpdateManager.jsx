@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,35 +6,55 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "../../api/axios";
-const CREATE_FUEL_URL="/fuelstation";
+const UPDATE_FUEL_URL="/fuelstation/";
 
 const theme = createTheme();
 
-export default function CreateFuelStation(props) {
-  const handleSubmit = async (event) => {
+export default function UpdateManager(props) {
+
+  const[newAddress, setNewAddress] = useState(props.data.address);
+  const[newStockPetrol92, setStockPetrol92] = useState(props.data.stockPetrol92);
+  const[newStockPetrol95, setStockPetrol95] = useState(props.data.stockPetrol95);
+  const[newDiesal, setDiesal] = useState(props.data.diesal);
+  const[newSuperDiesal, setSuperDiesal] = useState(props.data.superDiesal);
+  const regnumber = props.data.registrationNumber;
+
+  const handleChangeAddress = (e)=>{
+    setNewAddress(e.target.value);
+  };
+  const handlePetrol92 = (e)=>{
+    setStockPetrol92(e.target.value);
+  }
+  const handlePetrol95 = (e)=>{
+    setStockPetrol95(e.target.value);
+  }
+  const handleDiesal = (e)=>{
+    setDiesal(e.target.value);
+  }
+  const handleSuperDiesal = (e)=>{
+    setSuperDiesal(e.target.value);
+  }
+
+ 
+  const handleUpdate = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    try {
-      // make axios post request
-      const response = await axios.post (CREATE_FUEL_URL,
-        data,
-        {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }).
-        then(resp =>{
+    await axios.put(`${UPDATE_FUEL_URL}${regnumber}`, 
+      data,
+      {
+        headers:{
+          "Content-Type": "application/json",
+        }
+      })
+        .then( resp => {
           props.setOpenModal(false);
+          props.getStations();
           console.log(JSON.stringify(resp?.data));
         })
-        
-      
-    } catch(error) {
-      console.log(error)
-    }
-    console.log(data.get('registrationNumber'));
+        .catch( err => console.error );
   };
 
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,15 +67,16 @@ export default function CreateFuelStation(props) {
             alignItems: 'center',
           }}
         >
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleUpdate} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="dense"
-              required
               fullWidth
               id="registrationNumber"
               label="Registration Number"
               name="registrationNumber"
-              autoFocus
+              disabled={true}
+              value={props.data.registrationNumber}
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               margin="dense"
@@ -65,6 +86,9 @@ export default function CreateFuelStation(props) {
               label="Address"
               type="text"
               id="address"
+              InputLabelProps={{ shrink: true }}
+              value={newAddress}
+              onChange={handleChangeAddress}
             />
             <TextField
               margin="dense"
@@ -74,6 +98,9 @@ export default function CreateFuelStation(props) {
               label="Petrol Stock 92(L)"
               type="number"
               id="stockPetrol92"
+              InputLabelProps={{ shrink: true }}
+              value={newStockPetrol92}
+              onChange={handlePetrol92}
             />
             <TextField
               margin="dense"
@@ -83,6 +110,9 @@ export default function CreateFuelStation(props) {
               label="Petrol Stock 95(L)"
               type="number"
               id="stockPetrol95"
+              InputLabelProps={{ shrink: true }}
+              value={newStockPetrol95}
+              onChange={handlePetrol95}
             />
             <TextField
               margin="dense"
@@ -92,6 +122,9 @@ export default function CreateFuelStation(props) {
               label="Diseal Stock(L)"
               type="number"
               id="diesal"
+              InputLabelProps={{ shrink: true }}
+              value={newDiesal}
+              onChange={handleDiesal}
             />
             <TextField
               margin="dense"
@@ -101,6 +134,9 @@ export default function CreateFuelStation(props) {
               label="Super Diesal(L)"
               type="number"
               id="superDiesal"
+              InputLabelProps={{ shrink: true }}
+              value={newSuperDiesal}
+              onChange={handleSuperDiesal}
             />
             <Button
               type="submit"

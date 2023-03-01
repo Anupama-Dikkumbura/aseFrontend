@@ -15,6 +15,7 @@ import Managers from './pages/Managers/Managers';
 import ScheduleDelivery from './pages/scheduleDelivery/ScheduleDelivery';
 import CustomerRequests from './pages/customerRequests/CustomerRequests';
 import Fill from './pages/fill/Fill';
+import Reports from './pages/Reports/Reports';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/admin" element={<AdminLogin/>} />
             <Route path="/fuelstationlogin" element={<FuelStationLogin/>} />
             <Route path="/dashboard" element={<Dashboard content={<DashboardContent />} pageTitle="Dashboard"/>} />
+            <Route path="/reports" element={<Dashboard content={<Reports />} pageTitle="Reports"/>} />
 
             {/* customer routes */}
             <Route path="/vehicles" element={<Dashboard content={<CustomerVehicles />} pageTitle="Vehicles"/>} />

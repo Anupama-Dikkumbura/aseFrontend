@@ -59,12 +59,6 @@ export default function Register() {
       
     } catch(error) {
       console.log(error)
-      // if(!error?.response){
-      //   setErrMsg('No server response');
-      // }else if(error.response){
-      //   setErrMsg(error.response.message);
-      //   console.log(error.message);
-      // }
     }
   };
 
@@ -84,7 +78,7 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Customer Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>

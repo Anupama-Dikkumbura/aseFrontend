@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,26 +7,97 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { InputLabel, MenuItem, Select } from '@mui/material';
+import axios from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+const GET_STATION_LIST_URL= "/fuelstation";
+const REGISTER_URL='/users/register'
+
 
 
 const theme = createTheme();
 
 export default function CreateManager(props) {
-  const handleSubmit = (event) => {
+const navigate = useNavigate();
+  const [fuelStation, setFuelStation] = useState('');
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [fuelStationList, setFuelStationList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    console.log(fuelStation);
+    const  user = {
+      firstName: firstname,
+      lastName: lastname,
+      phone: phone,
+      address: address,
+      password: password,
+      role: "filling station manager",
+      fuelStation: fuelStation
+
+    }
+    try {
+      // make axios post request
+      const response = await axios.post (REGISTER_URL,
+        // JSON.stringify({phone: phone,password: password})
+        user,
+        {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        });
+        props.setOpenModal(false);
+        console.log(JSON.stringify(response?.data));
+        const role = response?.data?.role;
+        console.log(role);
+        navigate("/managers");
+      
+    } catch(error) {
+      console.log(error)
+    }
+  };
+
+  const getStations = async ()=>{
+    setLoading(true);
+    await axios.get(GET_STATION_LIST_URL)
+    .then(res=>{
+      setFuelStationList(res.data);
+      console.log(res.data);
+      setLoading(false);
     });
   };
 
-  const [vehicleType, setVehicleType] = React.useState('');
+  
 
-  const handleVehicleTypeChange = (event) => {
-    setVehicleType(event.target.value);
+  const handleFuelStationChange = (event) => {
+    setFuelStation(event.target.value);
+  };
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+  };
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
   };
 
+  useEffect(() => {
+    getStations();
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -47,6 +118,7 @@ export default function CreateManager(props) {
               label="First Name"
               name="firstname"
               autoFocus
+              onChange={handleFirstNameChange}
             />
             <TextField
               margin="dense"
@@ -55,7 +127,7 @@ export default function CreateManager(props) {
               id="lastname"
               label="Last Name"
               name="lastname"
-              autoFocus
+              onChange={handleLastNameChange}
             />
             <TextField
               margin="dense"
@@ -64,7 +136,7 @@ export default function CreateManager(props) {
               id="address"
               label="Address"
               name="address"
-              autoFocus
+              onChange={handleAddressChange}
             />
             <TextField
               margin="dense"
@@ -73,7 +145,7 @@ export default function CreateManager(props) {
               id="phone"
               label="Phone"
               name="phone"
-              autoFocus
+              onChange={handlePhoneChange}
             />
             <TextField
               margin="dense"
@@ -82,22 +154,25 @@ export default function CreateManager(props) {
               id="password"
               label="Password"
               name="password"
-              autoFocus
+              onChange={handlePasswordChange}
             />
             <InputLabel id="fuelStationLabel">Fuel Station</InputLabel>
             <Select
                 labelId="fuelStation"
-                id="vehicleType"
-                value={vehicleType}
+                id="fuelStation"
+                value={fuelStation}
                 label="Fuel Station"
-                onChange={handleVehicleTypeChange}
-                
-                
+                onChange={handleFuelStationChange}
             >
-                <MenuItem value={"two-wheelers"}>Two Wheeler</MenuItem>
-                <MenuItem value={"three-wheelers"}>Three Wheeler</MenuItem>
-                <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
-                <MenuItem value={"heavy"}>Heavy</MenuItem>
+                {loading &&
+                    <MenuItem>Loading....</MenuItem>}
+               { !loading &&
+              
+                fuelStationList?.map((station) => (
+              <MenuItem value={station._id}>{station.address}</MenuItem>
+          ))}
+              
+                <MenuItem value={12}>asd</MenuItem>
             </Select>
             <Button
               type="submit"

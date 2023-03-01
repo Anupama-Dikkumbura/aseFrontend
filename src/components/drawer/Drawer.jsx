@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import "./Drawer.css";
 import logo from "../../images/fuelinLogo.jpeg"
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import { Report } from '@mui/icons-material';
 
 
 const drawerWidth = 240;
@@ -39,7 +40,7 @@ function ResponsiveDrawer(props) {
   };
 
   // filling station manager, head office,customer
-  const role = "head office";
+  const role = "customer";
 
   const headOfficeMenu = ()=>{
     return(
@@ -81,6 +82,16 @@ function ResponsiveDrawer(props) {
                         <AccessTimeIcon color='primary'/>
                     </ListItemIcon>
                     <ListItemText primary="Schedule Delivery"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/reports" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <Report color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Reports"/>
                     </ListItemButton>
                 </ListItem>
             </Link>

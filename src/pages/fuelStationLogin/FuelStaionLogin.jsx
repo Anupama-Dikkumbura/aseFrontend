@@ -103,7 +103,7 @@ export default function FuelStationLogin() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Fuel Station Login
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           
@@ -150,11 +150,7 @@ export default function FuelStationLogin() {
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
-              <Link className='links' to="/register"  variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+            
           </Grid>
         </Box>
       </Box>
