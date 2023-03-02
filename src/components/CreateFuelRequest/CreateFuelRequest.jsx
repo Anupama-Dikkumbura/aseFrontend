@@ -62,9 +62,7 @@ export default function CreateFuelRequest(props) {
                 
                 
             >
-                <MenuItem value={"two-wheelers"}>Two Wheeler</MenuItem>
-                <MenuItem value={"three-wheelers"}>Three Wheeler</MenuItem>
-                <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
+                <MenuItem value={"two-wheelers"}>CAE1223</MenuItem>
                 <MenuItem value={"heavy"}>Heavy</MenuItem>
             </Select>
             <InputLabel margin='normal' id="fuelStationLabel">Fuel Station</InputLabel>
@@ -77,8 +75,8 @@ export default function CreateFuelRequest(props) {
                 
                 
             >
-                <MenuItem value={"two-wheelers"}>Two Wheeler</MenuItem>
-                <MenuItem value={"three-wheelers"}>Three Wheeler</MenuItem>
+                <MenuItem value={"two-wheelers"}>Galle</MenuItem>
+                <MenuItem value={"three-wheelers"}>Matara</MenuItem>
                 <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
                 <MenuItem value={"heavy"}>Heavy</MenuItem>
             </Select>

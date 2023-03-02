@@ -40,7 +40,7 @@ function ResponsiveDrawer(props) {
   };
 
   // filling station manager, head office,customer
-  const role = "customer";
+  const role = "filling station manager";
 
   const headOfficeMenu = ()=>{
     return(
@@ -139,6 +139,16 @@ function ResponsiveDrawer(props) {
                         <RequestQuoteIcon color='primary' />
                     </ListItemIcon>
                     <ListItemText primary="Customer Requests"/>
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+            <Link to="/reports" className='navigateLinks'>
+                <ListItem disablePadding>
+                    <ListItemButton>
+                    <ListItemIcon>
+                        <Report color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Reports"/>
                     </ListItemButton>
                 </ListItem>
             </Link>

@@ -4,55 +4,54 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import CreateFuelStation from '../../components/CreateFuelStation/CreateFuelStation';
 import CreateVehicles from '../../components/CreateVehicles/CreateVehicles';
+import VehicleList from '../../components/CreateVehicles/VehicleList';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 import "./customerVehicles.css";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'vehicleNumber',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Vehicle Reg Num',
   },
   {
-    id: 'address',
+    id: 'quota',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'Quota',
   },
   {
-    id: 'stockPetrol92',
+    id: 'vehicleType',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Vehicle Type',
   },
   {
-    id: 'stockPetrol95',
+    id: 'fuelType',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
-  },
-  {
-    id: 'diesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Diesal',
-  },
-  {
-    id: 'superDiesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Super Diesal',
-  },
-  {
-    id: 'action',
-    numeric: true,
-    disablePadding: false,
-    label: 'Action',
-  },
+    label: 'Fuel Type',
+  }
 ];
 
+
+const vdata = [
+  {
+    vehicleNumber: "CAE1223",
+    quota: "4",
+    vehicleType: "four-wheelers",
+    fuelType: "petrol",
+  },
+  {
+    vehicleNumber: "BD1223",
+    quota: "4",
+    vehicleType: "two-wheelers",
+    fuelType: "petrol",
+  }
+];
+console.log(vdata);
 function CustomerVehicles() {
   const [openModal, setOpenModal] = useState(false);
   const handleCreate = ()=>{
@@ -71,11 +70,12 @@ function CustomerVehicles() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable 
+        {/* <EnhancedTable 
             editForm={<CreateVehicles btntext="Update"/>} 
             tableheaders={headCells} 
             tableTitle="Vehicles"
-            formTitle="Edit Vehicle"/>
+            formTitle="Edit Vehicle"/> */}
+          <VehicleList tableheaders={headCells} vdata={vdata} />
       </div>
       <Popup
       title="Create a Vehicle"

@@ -122,10 +122,9 @@ function Managers() {
         </Button>
       </div>
       <div className='table'>
-        {/* <ManagersList 
+        <ManagersList 
           userData={userData}
-          getUsers ={getUsers}
-          tableheaders={headCells} /> */}
+          tableheaders={headCells} />
       </div>
       <Popup
       title="Create a Manager"

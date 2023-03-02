@@ -2,46 +2,65 @@ import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import CreateFuelRequest from '../../components/CreateFuelRequest/CreateFuelRequest';
+import FuelRequestList from '../../components/CreateFuelRequest/FuelRequestList';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 import "./FuelRequests.css";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'vehicleNumber',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Vehicle Reg No',
   },
   {
-    id: 'address',
+    id: 'fuelType',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'fuelType',
   },
   {
-    id: 'stockPetrol92',
+    id: 'fuelStation',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Fuel Station',
   },
   {
-    id: 'stockPetrol95',
+    id: 'fillingDate',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
+    label: 'Filling Date',
   },
   {
-    id: 'diesal',
+    id: 'fillingTime',
     numeric: true,
     disablePadding: false,
-    label: 'Diesal',
+    label: 'Filling Time',
   },
   {
-    id: 'superDiesal',
+    id: 'requestAmount',
     numeric: true,
     disablePadding: false,
-    label: 'Super Diesal',
+    label: 'Requested Amount',
+  },
+  {
+    id: 'notifications',
+    numeric: true,
+    disablePadding: false,
+    label: 'Notifications',
+  },
+  {
+    id: 'paymentStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment Status',
+  },
+  {
+    id: 'requestStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Request Status',
   },
   {
     id: 'action',
@@ -49,6 +68,32 @@ const headCells = [
     disablePadding: false,
     label: 'Action',
   },
+];
+
+const data = [
+  {
+    vehicleNumber: "CAE1223",
+    fuelType: "petrol",
+    notifications: "sms",
+    fuelStation: "Galle",
+    requestedAmount: "5",
+    fillingDate: "05-03-2023",
+    fillingTime: "0930",
+    requestStatus: "taken",
+    paymentStatus: "paid",
+
+  },
+  {
+    vehicleNumber: "BD1223",
+    fuelType: "diesal",
+    notifications: "email",
+    fuelStation: "mathara",
+    requestedAmount: "4",
+    fillingDate: "10-03-2023",
+    fillingTime: "1930",
+    requestStatus: "untaken",
+    paymentStatus: "pending",
+  }
 ];
 
 function FuelRequests() {
@@ -69,11 +114,12 @@ function FuelRequests() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable 
+        {/* <EnhancedTable 
         editForm={<CreateFuelRequest btntext="Update"/>} 
         tableheaders={headCells} 
         tableTitle="Fuel Requests" 
-        formTitle="Edit Fuel Request"/>
+        formTitle="Edit Fuel Request"/> */}
+        <FuelRequestList data={data} headers={headCells}/>
       </div>
       <Popup
       title="Create Fuel Request"

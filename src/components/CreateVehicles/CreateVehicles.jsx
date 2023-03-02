@@ -21,9 +21,13 @@ export default function CreateVehicles(props) {
   };
 
   const [vehicleType, setVehicleType] = React.useState('');
+  const [fuelType, setFuelType] = React.useState('');
 
   const handleVehicleTypeChange = (event) => {
     setVehicleType(event.target.value);
+  };
+  const handleFuelTypeChange = (event) => {
+    setFuelType(event.target.value);
   };
 
   return (
@@ -62,6 +66,18 @@ export default function CreateVehicles(props) {
                 <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
                 <MenuItem value={"heavy"}>Heavy</MenuItem>
             </Select>
+            <InputLabel id="fuelType">Fuel Type</InputLabel>
+            <Select
+                labelId="fuelType"
+                id="fuelType"
+                value={fuelType}
+                label="Fuel Type"
+                onChange={handleFuelTypeChange}
+            >
+                <MenuItem value={"petrol"}>Petrol</MenuItem>
+                <MenuItem value={"diesal"}>Diesal</MenuItem>
+
+                </Select>
             <Button
               type="submit"
               fullWidth

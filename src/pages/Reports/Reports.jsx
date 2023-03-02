@@ -8,44 +8,58 @@ import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 import axios from '../../api/axios';
 import jsPDF from 'jspdf';
+import ManagersList from '../../components/CreateManager/ManagersList';
+import FuelRequestList from '../../components/CreateFuelRequest/FuelRequestList';
 const GET_STATION_LIST_URL= "/fuelstation";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'vehicleNumber',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Vehicle Reg No',
   },
   {
-    id: 'address',
+    id: 'fuelType',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'fuelType',
   },
   {
-    id: 'stockPetrol92',
+    id: 'fillingDate',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Filling Date',
   },
   {
-    id: 'stockPetrol95',
+    id: 'fillingTime',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
+    label: 'Filling Time',
   },
   {
-    id: 'diesal',
+    id: 'requestAmount',
     numeric: true,
     disablePadding: false,
-    label: 'Diesal',
+    label: 'Requested Amount',
   },
   {
-    id: 'superDiesal',
+    id: 'notifications',
     numeric: true,
     disablePadding: false,
-    label: 'Super Diesal',
+    label: 'Notifications',
+  },
+  {
+    id: 'paymentStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment Status',
+  },
+  {
+    id: 'requestStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Request Status',
   },
   {
     id: 'action',
@@ -54,6 +68,33 @@ const headCells = [
     label: 'Action',
   },
 ];
+
+const userData = [
+  {
+    vehicleNumber: "CAE1223",
+    fuelType: "petrol",
+    notifications: "sms",
+    fuelStation: "Galle",
+    requestedAmount: "5",
+    fillingDate: "05-03-2023",
+    fillingTime: "0930",
+    requestStatus: "taken",
+    paymentStatus: "paid",
+
+  },
+  {
+    vehicleNumber: "BD1223",
+    fuelType: "diesal",
+    notifications: "email",
+    fuelStation: "mathara",
+    requestedAmount: "4",
+    fillingDate: "10-03-2023",
+    fillingTime: "1930",
+    requestStatus: "untaken",
+    paymentStatus: "pending",
+  }
+];
+
 
 function Reports(){
   const [vehicleType, setVehicleType] = React.useState('');
@@ -108,7 +149,7 @@ function Reports(){
             >
                 <MenuItem value={"two-wheelers"}>Managers Report</MenuItem>
                 <MenuItem value={"three-wheelers"}>Fuel Stations Report</MenuItem>
-                <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
+                <MenuItem value={"four-wheelers"}>Fuel Requests</MenuItem>
                 <MenuItem value={"heavy"}>Heavy</MenuItem>
             </Select>
         <Button
@@ -128,8 +169,9 @@ function Reports(){
         </Button>
       </div>
       <div className='table'>
-          <FuelStationList 
-          tableheaders={headCells} />
+      <FuelRequestList 
+          data={userData}
+          headers={headCells} />
       </div>
       <Popup
       title="Create Fuel Station"
