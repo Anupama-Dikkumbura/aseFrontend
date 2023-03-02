@@ -1,4 +1,6 @@
 import { React, useState, useEffect, useRef, useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../../store/userSlice';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +19,7 @@ import "./Login.css"
 import AuthContext from '../../context/AuthProvider';
 const LOGIN_URL = '/users/login';
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,6 +36,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const {setAuth} = useContext(AuthContext);
   const userRef = useRef();
@@ -69,7 +74,10 @@ export default function Login() {
         });
         console.log(JSON.stringify(response?.data));
         const role = response?.data?.role;
-        console.log(role);
+
+        //set in redux
+        const hi= dispatch(setUserDetails({ phoneNumber:response?.data?.phone, firstName:response?.data?.firstName, lastName:response?.data?.lastName, role:response?.data?.role }));
+        console.log(hi)
         setAuth({phone, password, role});
         setPhone('');
         setPassword('');
