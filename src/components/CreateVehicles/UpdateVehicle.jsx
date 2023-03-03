@@ -15,16 +15,15 @@ export default function UpdateVehicle(props) {
   const [vehicleNumber, setVehicleNumber] = useState(props.data.vehicleNumber)
   const [vehicleType, setVehicleType] = useState(props.data.vehicleType);
   const [fuelType, setFuelType] = useState(props.data.fuelType);
-
+  const userId = localStorage.getItem("userID");
 
   const handleUpdate = async (event) => {
     event.preventDefault();
     const vehicle = {
       "vehicleNumber":vehicleNumber,
-      "quota":10,
       "vehicleType":vehicleType,
       "fuelType":fuelType,
-      "user": "63feac3ee740360349adfda9"
+      "user": userId
     }
     try {
       // make axios post request

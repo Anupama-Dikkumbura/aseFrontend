@@ -31,9 +31,69 @@ const theme = createTheme();
 export default function Register() {
   const navigate = useNavigate();
 
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [firstNameError,setFirstNameError] = useState('');
+  const [lastNameError,setLastNameError] = useState('');
+  const [addressError,setAddressError] = useState('');
+  const [phoneError,setPhoneError] = useState('');
+  const [passwordError,setPasswordError] = useState('');
+  const [userExistError, setUserExistError] = useState('');
+
+  const validate = ()=>{
+    setPhoneError("");
+    setPasswordError("");
+    setFirstNameError("");
+    setLastNameError("");
+    setAddressError("");
+    setUserExistError("");
+
+    if(firstname === ""){
+      setFirstNameError("Firstname cannot be empty");
+    }
+    if(lastname === ""){
+      setLastNameError("Lastname cannot be empty");
+    }
+    if(address === ""){
+      setAddressError("Address cannot be empty");
+    }
+    if(phone === ""){
+      setPhoneError("Phone number cannot be empty");
+    }
+    if(password === ""){
+      setPasswordError("Password cannot be empty");
+    }
+    if(firstNameError|| lastNameError || addressError || phoneError || passwordError){
+      return false;
+    }
+    return true;
+  }
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+  };
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const isValid = validate();
+    if(isValid){
+      const data = new FormData(event.currentTarget);
     const  user = {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
@@ -58,7 +118,9 @@ export default function Register() {
         navigate("/login");
       
     } catch(error) {
+      setUserExistError("This phone number already exists!")
       console.log(error)
+    }
     }
   };
 
@@ -91,7 +153,10 @@ export default function Register() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={firstname}
+                  onChange={handleFirstNameChange}
                 />
+                {firstNameError ? <p style={{color:"red", fontSize:"15px"}}>{firstNameError}</p> : null}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -101,7 +166,10 @@ export default function Register() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastname}
+                  onChange={handleLastNameChange}
                 />
+                {lastNameError ? <p style={{color:"red", fontSize:"15px"}}>{lastNameError}</p> : null}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -110,17 +178,10 @@ export default function Register() {
                   id="address"
                   label="Address"
                   name="address"
+                  value={address}
+                  onChange={handleAddressChange}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                />
+                {addressError ? <p style={{color:"red", fontSize:"15px"}}>{addressError}</p> : null}
               </Grid>
               <Grid item xs={12}>
               <TextField
@@ -130,7 +191,24 @@ export default function Register() {
                   label="Phone"
                   type="text"
                   id="phone"
+                  value={phone}
+                  onChange={handlePhoneChange}
                 />
+                {phoneError ? <p style={{color:"red", fontSize:"15px"}}>{phoneError}</p> : null}
+              </Grid>
+              <Grid item xs={12}>
+              <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+                {passwordError ? <p style={{color:"red", fontSize:"15px"}}>{passwordError}</p> : null}
+                {userExistError ? <p style={{color:"red", fontSize:"15px"}}>{userExistError}</p> : null}
               </Grid>
             </Grid>
             <Button

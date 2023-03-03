@@ -1,4 +1,4 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Hidden } from '@mui/material';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Hidden, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../../api/axios";
@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PaidIcon from '@mui/icons-material/Paid';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Popup from '../Popup/Popup';
+import CheckIcon from '@mui/icons-material/Check';
 import QR from '../QR/QR';
 const GET_REQUESTS= "/customerreq";
 const DELETE_REQ= "/customerreq/";
@@ -15,7 +16,7 @@ const PAY = "/customerreq/customerrequest/";
 const GET_STATION_LIST_URL= "/fuelstation";
 
 
-function FuelRequestList(props) {
+function CustomerRequestsList(props) {
   //const [data, setData] = useState([]);
   const [fuelStationList, setFuelStationList] = useState([]);
   const [vehicleList, setVehicleList] = useState([]);
@@ -82,7 +83,8 @@ function FuelRequestList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-            {result.filter(v => v.user ===localStorage.getItem("userID"))?.length > 0? result.filter(v => v.user ===localStorage.getItem("userID")).map((request) =>{
+            {result.filter(v => v.requestFuelStation.id ===localStorage.getItem("fuelStation"))?.length > 0? 
+            result.filter(v => v.requestFuelStation.id ===localStorage.getItem("fuelStation")).map((request) =>{
               return(
               <TableRow>
                 <TableCell>{request.vehicleNumber.vehicleNumber}</TableCell>
@@ -94,15 +96,11 @@ function FuelRequestList(props) {
                 <TableCell>{request.notification}</TableCell>
                 <TableCell>{request.paymentStatus === "paid"? <h3 style={{color:"Green"}}>{request.paymentStatus}</h3>:<h3 style={{color:"orange"}}>{request.paymentStatus}</h3>}</TableCell>
                 <TableCell>{request.status}</TableCell>
-                <TableCell>{<>{request.paymentStatus=="paid"?<Link onClick={()=>{
-                  setToken(request.token);
-                  setQRTitle(request.vehicleNumber.vehicleNumber);
-                  setQROpenModal(true);
-                }}><VisibilityIcon/></Link>
+                <TableCell>{<>{request.paymentStatus=="paid"?<Link><Tooltip title="Fill"><CheckIcon /></Tooltip></Link>
                 :<Link onClick={()=>handlePayment(request._id)}>
                       <PaidIcon/></Link>}
                     
-                    <Link onClick={()=> handleDelete(request._id)} ><DeleteIcon/></Link></>}</TableCell>
+                    <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></>}</TableCell>
               </TableRow>
           )}):""}
           
@@ -125,4 +123,4 @@ function FuelRequestList(props) {
   );
 }
 
-export default FuelRequestList;
+export default CustomerRequestsList;

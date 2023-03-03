@@ -43,9 +43,9 @@ function ResponsiveDrawer(props) {
 
   // filling station manager, head office,customer
   // const user = useSelector((state) => state.user);
-  // const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
 
-  const role = "customer";
+  // const role = "customer";
 
   const headOfficeMenu = ()=>{
     
@@ -134,7 +134,7 @@ function ResponsiveDrawer(props) {
                     <ListItemIcon>
                         <OilBarrelIcon color='primary'/>
                     </ListItemIcon>
-                    <ListItemText primary="Fill"/>
+                    <ListItemText primary="Request Fuel"/>
                     </ListItemButton>
                 </ListItem>
             </Link>

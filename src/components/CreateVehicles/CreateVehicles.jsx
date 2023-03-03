@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import axios from '../../api/axios';
+import { validateDate } from '@mui/x-date-pickers/internals';
 const REGISTER_VEHICLE = "/vehicle/register"
 
 const theme = createTheme();
@@ -17,32 +18,63 @@ export default function CreateVehicles(props) {
   const [fuelType, setFuelType] = useState('');
   const userId = localStorage.getItem("userID");
 
+  const [vehicleError,setVehicleError] = useState('');
+  const [vehicleTypeError,setVehicleTypeError] = useState('');
+  const [fuelTypeError,setFuelTypeError] = useState('');
+  const [existError, setExistError] = useState('');
+
+
+  const validate = ()=>{
+    setVehicleError("");
+    setVehicleTypeError("");
+    setFuelTypeError("");
+    setExistError("");
+    if(vehicleNumber === ""){
+      setVehicleError("Vehicle number cannot be empty");
+    }
+    if(vehicleType === ""){
+      setVehicleTypeError("Vehicle type cannot be empty");
+    }
+    if(fuelType === ""){
+      setFuelTypeError("Fuel type cannot be empty");
+    }
+    if(vehicleError || vehicleTypeError || fuelTypeError){
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const vehicle = {
-      "vehicleNumber":vehicleNumber,
-      "vehicleType":vehicleType,
-      "fuelType":fuelType,
-      "user": userId
+    const isValid = validate();
+    if(isValid){
+      const vehicle = {
+        "vehicleNumber":vehicleNumber,
+        "vehicleType":vehicleType,
+        "fuelType":fuelType,
+        "user": userId
+      }
+      try {
+        // make axios post request
+        const response = await axios.post (REGISTER_VEHICLE,
+          vehicle,
+          {
+            headers:{
+              "Content-Type": "application/json",
+            }
+          }).then(resp =>{
+            
+            console.log(JSON.stringify(resp?.data));
+          })
+          props.setOpenModal(false);
+          window.location.reload(false);
+        
+      } catch(error) {
+        setExistError("This Vehicle already exists!")
+        console.log(error)
+      }
     }
-    try {
-      // make axios post request
-      const response = await axios.post (REGISTER_VEHICLE,
-        vehicle,
-        {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }).then(resp =>{
-          
-          console.log(JSON.stringify(resp?.data));
-        })
-        props.setOpenModal(false);
-        window.location.reload(false);
-      
-    } catch(error) {
-      console.log(error)
-    }
+    
   };
 
   
@@ -79,6 +111,7 @@ export default function CreateVehicles(props) {
               value={vehicleNumber}
               onChange={handleVehicleNumberChange}
             />
+            {vehicleError ? <p style={{color:"red", fontSize:"15px"}}>{vehicleError}</p> : null}
             <InputLabel id="vehicleTypeLabel">Vehicle Type</InputLabel>
             <Select
                 labelId="vehicleType"
@@ -92,6 +125,7 @@ export default function CreateVehicles(props) {
                 <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
                 <MenuItem value={"heavy"}>Heavy</MenuItem>
             </Select>
+            {vehicleTypeError ? <p style={{color:"red", fontSize:"15px"}}>{vehicleTypeError}</p> : null}
             <InputLabel id="fuelType">Fuel Type</InputLabel>
             <Select
                 labelId="fuelType"
@@ -104,6 +138,8 @@ export default function CreateVehicles(props) {
                 <MenuItem value={"diesal"}>Diesal</MenuItem>
 
                 </Select>
+                {fuelTypeError ? <p style={{color:"red", fontSize:"15px"}}>{fuelTypeError}</p> : null}
+                {existError ? <p style={{color:"red", fontSize:"15px"}}>{existError}</p> : null}
             <Button
               type="submit"
               fullWidth

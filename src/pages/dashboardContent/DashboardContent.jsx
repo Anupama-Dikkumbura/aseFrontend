@@ -7,6 +7,7 @@ import FuelRequestList from '../../components/CreateFuelRequest/FuelRequestList'
 import Chart from '../../components/Dashboard/Chart'
 import Deposits from '../../components/Dashboard/Deposits'
 import Orders from '../../components/Dashboard/Orders'
+import QR from '../../components/QR/QR';
 import "./DashboardContent.css"
 
 const headCells = [
@@ -97,7 +98,8 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  {/* <Deposits /> */}
+                  <QR />
                 </Paper>
               </Grid>
               {/* Recent Orders */}

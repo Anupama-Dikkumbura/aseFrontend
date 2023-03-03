@@ -2,45 +2,64 @@ import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import CreateCustomerRequest from '../../components/CreateCustomerRequest/CreateCustomerRequest';
+import CustomerRequestsList from '../../components/CreateCustomerRequest/CustomerRequestsList';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'vehicleNumber',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Vehicle Reg No',
   },
   {
-    id: 'address',
+    id: 'fuelType',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'Fuel Type',
   },
   {
-    id: 'stockPetrol92',
+    id: 'fuelStation',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Fuel Station',
   },
   {
-    id: 'stockPetrol95',
+    id: 'fillingDate',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
+    label: 'Filling Date',
   },
   {
-    id: 'diesal',
+    id: 'fillingTime',
     numeric: true,
     disablePadding: false,
-    label: 'Diesal',
+    label: 'Filling Time',
   },
   {
-    id: 'superDiesal',
+    id: 'requestAmount',
     numeric: true,
     disablePadding: false,
-    label: 'Super Diesal',
+    label: 'Requested Amount',
+  },
+  {
+    id: 'notifications',
+    numeric: true,
+    disablePadding: false,
+    label: 'Notifications',
+  },
+  {
+    id: 'paymentStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment Status',
+  },
+  {
+    id: 'requestStatus',
+    numeric: true,
+    disablePadding: false,
+    label: 'Request Status',
   },
   {
     id: 'action',
@@ -59,20 +78,16 @@ function CustomerRequests() {
   return (
     <div className='container'>
       <div style={{marginBottom: "10px"}}>
-        <Button
+        {/* <Button
           className='createButton'
           startIcon={<AddCircleRounded/>}
           variant='contained'
           onClick={()=>setOpenModal(true)}>
             Create
-        </Button>
+        </Button> */}
       </div>
       <div className='table'>
-        <EnhancedTable 
-        editForm={<CreateCustomerRequest btntext="Update"/>} 
-        tableheaders={headCells} 
-        tableTitle="Requests" 
-        formTitle="Edit Request"/>
+      <CustomerRequestsList headers={headCells}/>
       </div>
       <Popup
       title="Create a Request"

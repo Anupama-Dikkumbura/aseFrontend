@@ -48,6 +48,24 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const [phoneError,setPhoneError] = useState('');
+  const [passwordError,setPasswordError] = useState('');
+
+  const validate = ()=>{
+    setPhoneError("");
+    setPasswordError("");
+    if(phone === ""){
+      setPhoneError("Phone number cannot be empty");
+    }
+    if(password === ""){
+      setPasswordError("Password cannot be empty");
+    }
+    if(phoneError || passwordError){
+      return false;
+    }
+    return true;
+  }
+
   useEffect(()=>{
     // useRef.current.focus();
   },[])
@@ -59,50 +77,53 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isValid = validate();
+    if(isValid){
+      const data = new FormData(e.currentTarget);
 
-    const data = new FormData(e.currentTarget);
-
-    try {
-      // make axios post request
-      const response = await axios.post (LOGIN_URL,
-        // JSON.stringify({phone: phone,password: password})
-        data,
-        {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        }).then((res)=>{
-          localStorage.setItem("userID", res.data._id);
-          localStorage.setItem("firstName", res.data.firstName);
-          localStorage.setItem("lastName", res.data.lastName);
-          localStorage.setItem("phone", res.data.phone);
-          localStorage.setItem("address", res.data.address);
-          localStorage.setItem("role", res.data.role);
-          localStorage.setItem("fuelStation", res?.data?.fuelStation);
-        })
-        console.log(JSON.stringify(response?.data));
+      try {
+        // make axios post request
+        const response = await axios.post (LOGIN_URL,
+          // JSON.stringify({phone: phone,password: password})
+          data,
+          {
+            headers:{
+              "Content-Type": "application/json",
+            }
+          }).then((res)=>{
+            localStorage.setItem("userID", res.data._id);
+            localStorage.setItem("firstName", res.data.firstName);
+            localStorage.setItem("lastName", res.data.lastName);
+            localStorage.setItem("phone", res.data.phone);
+            localStorage.setItem("address", res.data.address);
+            localStorage.setItem("role", res.data.role);
+            localStorage.setItem("fuelStation", res?.data?.fuelStation);
+          })
+          console.log(JSON.stringify(response?.data));
+          
+          const role = response?.data?.role;
+  
+          //set in redux
+          const hi= dispatch(setUserDetails({ phoneNumber:response?.data?.phone, firstName:response?.data?.firstName, lastName:response?.data?.lastName, role:response?.data?.role }));
+          console.log(hi)
+          setAuth({phone, password, role});
+          setPhone('');
+          setPassword('');
+          navigate("/dashboard");
         
-        const role = response?.data?.role;
-
-        //set in redux
-        const hi= dispatch(setUserDetails({ phoneNumber:response?.data?.phone, firstName:response?.data?.firstName, lastName:response?.data?.lastName, role:response?.data?.role }));
-        console.log(hi)
-        setAuth({phone, password, role});
-        setPhone('');
-        setPassword('');
-        navigate("/dashboard");
-      
-    } catch(error) {
-      console.log(error)
-      setErrMsg('Invalid Phone or Password. Try Again!')
-      // if(!error?.response){
-      //   setErrMsg('No server response');
-      // }else if(error.response){
-      //   setErrMsg(error.response.message);
-      //   console.log(error.message);
-      // }
-      errRef.current.focus();
+      } catch(error) {
+        console.log(error)
+        setErrMsg('Invalid Phone or Password. Try Again!')
+        // if(!error?.response){
+        //   setErrMsg('No server response');
+        // }else if(error.response){
+        //   setErrMsg(error.response.message);
+        //   console.log(error.message);
+        // }
+        errRef.current.focus();
+      }
     }
+    
   };
 
   return (
@@ -138,6 +159,7 @@ export default function Login() {
               value={phone}
               ref={userRef}
             />
+            {phoneError ? <p style={{color:"red", fontSize:"15px"}}>{phoneError}</p> : null}
             <TextField
               margin="normal"
               required
@@ -149,6 +171,7 @@ export default function Login() {
               onChange={(e)=>setPassword(e.target.value)}
               value={password}
             />
+            {passwordError ? <p style={{color:"red", fontSize:"15px"}}>{passwordError}</p> : null}
             <p ref={errRef} className={errMsg?"errmsg":"offscreen"} style={{color: "red"}}>{errMsg}</p>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

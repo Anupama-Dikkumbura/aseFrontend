@@ -42,6 +42,24 @@ export default function FuelStationLogin() {
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const [phoneError,setPhoneError] = useState('');
+  const [passwordError,setPasswordError] = useState('');
+
+  const validate = ()=>{
+    setPhoneError("");
+    setPasswordError("");
+    if(phone === ""){
+      setPhoneError("Phone number cannot be empty");
+    }
+    if(password === ""){
+      setPasswordError("Password cannot be empty");
+    }
+    if(phoneError || passwordError){
+      return false;
+    }
+    return true;
+  }
+
   useEffect(()=>{
     // useRef.current.focus();
   },[])
@@ -49,42 +67,52 @@ export default function FuelStationLogin() {
   useEffect(()=>{
     setErrMsg('');
   },[phone, password])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isValid = validate();
+    if(isValid){
+      const data = new FormData(e.currentTarget);
 
-    const data = new FormData(e.currentTarget);
-
-    try {
-      // make axios post request
-      const response = await axios.post (LOGIN_URL,
-        // JSON.stringify({phone: phone,password: password})
-        data,
-        {
-          headers:{
-            "Content-Type": "application/json",
-          }
-        });
-        console.log(JSON.stringify(response?.data));
-        const accessToken = response.headers.get('auth-token');
-        const role = response?.data?.role;
-        console.log(accessToken);
-        console.log(role);
-        setAuth({phone, password, role, accessToken});
-        setPhone('');
-        setPassword('');
-        navigate("/dashboard");
-      
-    } catch(error) {
-      console.log(error)
-      setErrMsg('Invalid Phone or Password. Try Again!')
-      // if(!error?.response){
-      //   setErrMsg('No server response');
-      // }else if(error.response){
-      //   setErrMsg(error.response.message);
-      //   console.log(error.message);
-      // }
-      errRef.current.focus();
+      try {
+        // make axios post request
+        const response = await axios.post (LOGIN_URL,
+          // JSON.stringify({phone: phone,password: password})
+          data,
+          {
+            headers:{
+              "Content-Type": "application/json",
+            }
+          }).then((res)=>{
+            localStorage.setItem("userID", res.data._id);
+            localStorage.setItem("firstName", res.data.firstName);
+            localStorage.setItem("lastName", res.data.lastName);
+            localStorage.setItem("phone", res.data.phone);
+            localStorage.setItem("address", res.data.address);
+            localStorage.setItem("role", res.data.role);
+            localStorage.setItem("fuelStation", res?.data?.fuelStation);
+          })
+          console.log(JSON.stringify(response?.data));
+          
+          const role = response?.data?.role;
+  
+          setPhone('');
+          setPassword('');
+          navigate("/dashboard");
+        
+      } catch(error) {
+        console.log(error)
+        setErrMsg('Invalid Phone or Password. Try Again!')
+        // if(!error?.response){
+        //   setErrMsg('No server response');
+        // }else if(error.response){
+        //   setErrMsg(error.response.message);
+        //   console.log(error.message);
+        // }
+        errRef.current.focus();
+      }
     }
+    
   };
 
   return (
@@ -120,6 +148,7 @@ export default function FuelStationLogin() {
             value={phone}
             ref={userRef}
           />
+          {phoneError ? <p style={{color:"red", fontSize:"15px"}}>{phoneError}</p> : null}
           <TextField
             margin="normal"
             required
@@ -131,6 +160,7 @@ export default function FuelStationLogin() {
             onChange={(e)=>setPassword(e.target.value)}
             value={password}
           />
+          {passwordError ? <p style={{color:"red", fontSize:"15px"}}>{passwordError}</p> : null}
           <p ref={errRef} className={errMsg?"errmsg":"offscreen"} style={{color: "red"}}>{errMsg}</p>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
