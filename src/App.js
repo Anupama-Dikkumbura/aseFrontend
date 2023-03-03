@@ -14,9 +14,9 @@ import FuelRequests from './pages/fuelRequests/FuelRequests';
 import Managers from './pages/Managers/Managers';
 import ScheduleDelivery from './pages/scheduleDelivery/ScheduleDelivery';
 import CustomerRequests from './pages/customerRequests/CustomerRequests';
-import Fill from './pages/fill/Fill';
 import Reports from './pages/Reports/Reports';
 import SignOut from './components/SignOut/SignOut';
+import FuelFromHeadOffice from './pages/FuelFromHeadOffice/FuelFromHeadOffice';
 
 function App() {
   return (
@@ -43,7 +43,7 @@ function App() {
 
            {/* Filling station routes */}
            <Route path="/customerrequests" element={<Dashboard content={<CustomerRequests />} pageTitle="Customer Requests"/>} />
-           <Route path="/fill" element={<Dashboard content={<Fill />} pageTitle="Fill"/>} />
+           <Route path="/fuelrequestheadoffice" element={<Dashboard content={<FuelFromHeadOffice />} pageTitle="Fuel Request"/>} />
         </Routes>
     </div>
 

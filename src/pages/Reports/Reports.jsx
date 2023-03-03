@@ -10,6 +10,7 @@ import axios from '../../api/axios';
 import jsPDF from 'jspdf';
 import ManagersList from '../../components/CreateManager/ManagersList';
 import FuelRequestList from '../../components/CreateFuelRequest/FuelRequestList';
+import UserReport from '../../components/ReportTypes/UserReport';
 const GET_STATION_LIST_URL= "/fuelstation";
 
 const headCells = [
@@ -100,14 +101,16 @@ function Reports(){
   const [vehicleType, setVehicleType] = React.useState('');
   const [openModal, setOpenModal] = useState(false);
   const [result, setResult] = useState([]);
+  const [report, setReport] = useState([]);
+
   const getStations = async ()=>{
     await axios.get(GET_STATION_LIST_URL)
     .then(res=>{
       setResult(res.data);
     });
   };
-  const handleVehicleTypeChange = (event) => {
-    setVehicleType(event.target.value);
+  const handleReportChange = (event) => {
+    setReport(event.target.value);
   };
 
   const exportPDF = () => {
@@ -140,23 +143,22 @@ function Reports(){
       <div style={{marginBottom: "10px"}}>
       <Typography style={{fontWeight: "bold"}}>Select Type of report you want</Typography>
       <Select
-                labelId="vehicleType"
-                id="vehicleType"
-                value={vehicleType}
-                label="Vehicle Type"
-                onChange={handleVehicleTypeChange}
+                labelId="report"
+                id="reportType"
+                value={report}
+                label="Report Type"
+                onChange={handleReportChange}
+                style={{marginRight: "100px"}}
                 
             >
-                <MenuItem value={"two-wheelers"}>Managers Report</MenuItem>
-                <MenuItem value={"three-wheelers"}>Fuel Stations Report</MenuItem>
-                <MenuItem value={"four-wheelers"}>Fuel Requests</MenuItem>
-                <MenuItem value={"heavy"}>Heavy</MenuItem>
+                <MenuItem value={"customers"}>Customers Report</MenuItem>
+                <MenuItem value={"fuelStations"}>Fuel Stations Report</MenuItem>
             </Select>
         <Button
           className='createButton'
           startIcon={<AddCircleRounded/>}
           variant='contained'
-          style={{marginLeft:"20px"}}
+          style={{marginLeft:"30px"}}
           >
             Generate Report
         </Button>
@@ -169,9 +171,9 @@ function Reports(){
         </Button>
       </div>
       <div className='table'>
-      <FuelRequestList 
-          data={userData}
-          headers={headCells} />
+        
+          <UserReport />
+      
       </div>
       <Popup
       title="Create Fuel Station"

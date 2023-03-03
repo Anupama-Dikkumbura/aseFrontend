@@ -7,6 +7,8 @@ import FuelRequestList from '../../components/CreateFuelRequest/FuelRequestList'
 import Chart from '../../components/Dashboard/Chart'
 import Deposits from '../../components/Dashboard/Deposits'
 import Orders from '../../components/Dashboard/Orders'
+import RecentRequestsCustomer from '../../components/Dashboard/RecentRequestsCustomer';
+import RecentRequestsFromHeadOffice from '../../components/Dashboard/RecentRequestsFromHeadOffice';
 import QR from '../../components/QR/QR';
 import "./DashboardContent.css"
 
@@ -77,7 +79,7 @@ function DashboardContent() {
               {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 
-                <Paper
+                {/* <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -86,11 +88,11 @@ function DashboardContent() {
                   }}
                 >
                   <Chart />
-                </Paper>
+                </Paper> */}
               </Grid>
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
-                <Paper
+                {/* <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -98,17 +100,27 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  {/* <Deposits /> */}
+                  <Deposits />
                   <QR />
-                </Paper>
+                </Paper> */}
               </Grid>
               {/* Recent Orders */}
               <Grid item xs={12}>
-             
+             {
+              role==="customer"?
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Title>Recent Orders</Title>
-                  <FuelRequestList headers={headCells}/>
-                </Paper>
+                  <Title>Recent Requests</Title>
+                  <RecentRequestsCustomer headers={headCells}/>
+                </Paper>:""
+              }
+              {
+              role==="filling station manager"?
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Title>Recent Requests</Title>
+                  <RecentRequestsFromHeadOffice/>
+                </Paper>:""
+              }
+             
               </Grid>
             </Grid>
           </Container>

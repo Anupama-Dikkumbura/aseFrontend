@@ -1,46 +1,41 @@
 import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
-import CreateFill from '../../components/CreateFill/CreateFill';
 import Popup from '../../components/Popup/Popup';
+import CreateRequestFuelFromAdmin from '../../components/RequestFuelFromAdmin/CreateRequestFuelFromAdmin';
+import RequestFromAdminList from '../../components/RequestFuelFromAdmin/RequestsFromAdminList';
 import EnhancedTable from "../../components/Table/Table";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'fuelStation',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Fuel Station ID',
   },
   {
-    id: 'address',
+    id: 'requestFuelType',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'Fuel Type',
   },
   {
-    id: 'stockPetrol92',
+    id: 'deliveryDate',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Requested Date',
   },
   {
-    id: 'stockPetrol95',
+    id: 'requestFuelAmount',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
+    label: 'Requested Amount',
   },
   {
-    id: 'diesal',
+    id: 'deliveryStatus',
     numeric: true,
     disablePadding: false,
-    label: 'Diesal',
-  },
-  {
-    id: 'superDiesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Super Diesal',
+    label: 'Dilivery Status',
   },
   {
     id: 'action',
@@ -50,8 +45,10 @@ const headCells = [
   },
 ];
 
-function Fill() {
+function FuelFromHeadOffice() {
   const [openModal, setOpenModal] = useState(false);
+
+  
   const handleCreate = ()=>{
       return "Test"
   }
@@ -68,15 +65,11 @@ function Fill() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable 
-        editForm={<CreateFill btntext="Update"/>} 
-        tableheaders={headCells} 
-        tableTitle="Fuel Pumped" 
-        formTitle="Edit"/>
+        <RequestFromAdminList headers={headCells}/>
       </div>
       <Popup
-      title="Fill"
-      children={<CreateFill btntext="Fill"/>}
+      title="Request"
+      children={<CreateRequestFuelFromAdmin btntext="Request" openModal={openModal} setOpenModal={setOpenModal}/>}
       openModal={openModal}
       setOpenModal={setOpenModal}
       >
@@ -86,4 +79,4 @@ function Fill() {
 }
 
 
-export default Fill
+export default FuelFromHeadOffice

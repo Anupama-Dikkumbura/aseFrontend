@@ -9,46 +9,68 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Popup from '../Popup/Popup';
 import CheckIcon from '@mui/icons-material/Check';
 import QR from '../QR/QR';
-const GET_REQUESTS= "/customerreq";
+const GET_REQUESTS= "/fuelReq/";
 const DELETE_REQ= "/customerreq/";
 const GET_VEHICLES = "/vehicle";
 const PAY = "/customerreq/customerrequest/";
 const GET_STATION_LIST_URL= "/fuelstation";
 
+const headCells = [
+    {
+      id: 'fuelStation',
+      numeric: false,
+      disablePadding: true,
+      label: 'Fuel Station ID',
+    },
+    {
+      id: 'requestFuelType',
+      numeric: false,
+      disablePadding: false,
+      label: 'Fuel Type',
+    },
+    {
+      id: 'deliveryDate',
+      numeric: true,
+      disablePadding: false,
+      label: 'Requested Date',
+    },
+    {
+      id: 'requestFuelAmount',
+      numeric: true,
+      disablePadding: false,
+      label: 'Requested Amount',
+    },
+    {
+      id: 'deliveryStatus',
+      numeric: true,
+      disablePadding: false,
+      label: 'Dilivery Status',
+    },
+    {
+      id: 'action',
+      numeric: true,
+      disablePadding: false,
+      label: 'Action',
+    },
+  ];
 
-function CustomerRequestsList(props) {
-  //const [data, setData] = useState([]);
-  const [fuelStationList, setFuelStationList] = useState([]);
-  const [vehicleList, setVehicleList] = useState([]);
-  const [vehicleNumber, setVehicleNumber] = useState();
+function RecentRequestsFromHeadOffice(props) {
   const [openModal, setOpenModal] = useState(false);
   const [openQRModal, setQROpenModal] = useState(false);
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
-  const [QRTitle,setQRTitle] = useState("");
   
   const getRequests = async ()=>{
     setLoading(true);
     await axios.get(GET_REQUESTS)
     .then(res=>{
-    
       setResult(res.data);
         
       setLoading(false);
     });
   };
-  const getVehicles = async ()=>{
-    setLoading(true);
-    await axios.get(GET_VEHICLES)
-    .then(res=>{
-      setResult(res.data.vehicles);
-      console.log(res.data);
-      setLoading(false);
-    });
-  };
   const handleDelete = async(requestID) => {
-    await axios.delete(`${DELETE_REQ}${requestID}`)
+    await axios.delete(`${GET_REQUESTS}${requestID}`)
         .then( resp => {
             setResult([]);
             console.log(resp.message);
@@ -63,15 +85,9 @@ function CustomerRequestsList(props) {
     })
   }
 
-  const showQR =()=>{
-
-  }
 
   useEffect(() => {
     getRequests();
-  }, []);
-  useEffect(() => {
-    getVehicles();
   }, []);
 
   return (
@@ -79,7 +95,7 @@ function CustomerRequestsList(props) {
       <Table>
         <TableHead>
           <TableRow>
-            {props.headers.map((thead)=>(
+            {headCells.map((thead)=>(
                  <TableCell key={thead.id} style={{fontWeight:"bold"}}>{thead.label}</TableCell>
             ))}
           </TableRow>
@@ -89,19 +105,13 @@ function CustomerRequestsList(props) {
             (result).map((request) =>{
               return(
               <TableRow>
-                <TableCell>{request.vehicleNumber.vehicleNumber}</TableCell>
+                <TableCell>{request.fuelStation}</TableCell>
                 <TableCell>{request.requestFuelType}</TableCell>
-                <TableCell>Colombo</TableCell>
-                <TableCell>{request.expectedFillingDate}</TableCell>
-                <TableCell>{request.expectedFillingTime}</TableCell>
-                <TableCell>{request.requestQuota}</TableCell>
-                <TableCell>{request.notification}</TableCell>
-                <TableCell>{request.paymentStatus === "paid"? <h3 style={{color:"Green"}}>{request.paymentStatus}</h3>:<h3 style={{color:"orange"}}>{request.paymentStatus}</h3>}</TableCell>
-                <TableCell>{request.status}</TableCell>
-                <TableCell>{<>{request.paymentStatus=="paid"?<Link><Tooltip title="Fill"><CheckIcon /></Tooltip></Link>
-                :<Link onClick={()=>handlePayment(request._id)}>
-                      <PaidIcon/></Link>}
-                    <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></>}</TableCell>
+                <TableCell>{request.deliveryDate}</TableCell>
+                <TableCell>{request.requestFuelAmount}</TableCell>
+                <TableCell>{request.deliveryStatus === "delivered"? <h3 style={{color:"Green"}}>{request.deliveryStatus}</h3>:<h3 style={{color:"orange"}}>{request.deliveryStatus}</h3>}</TableCell>
+                <TableCell>
+                    <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></TableCell>
               </TableRow>
           )}):<div>No records</div>}
           
@@ -115,13 +125,8 @@ function CustomerRequestsList(props) {
       setOpenModal={setOpenModal}
       >
       </Popup> */}
-      <QR 
-      title={QRTitle} 
-      token={token}
-      openQRModal={openQRModal}
-      setQROpenModal={setQROpenModal} />
     </TableContainer>
   );
 }
 
-export default CustomerRequestsList;
+export default RecentRequestsFromHeadOffice;

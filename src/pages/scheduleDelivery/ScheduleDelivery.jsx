@@ -2,45 +2,40 @@ import { AddCircleRounded } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import React, { useState } from 'react'
 import CreateDelivery from '../../components/CreateDelivery/CreateDelivery';
+import DeliveryScheduleList from '../../components/DeliverySchedule/DeliveryScheduleList';
 import Popup from '../../components/Popup/Popup';
 import EnhancedTable from "../../components/Table/Table";
 
 const headCells = [
   {
-    id: 'registrationNumber',
+    id: 'fuelStation',
     numeric: false,
     disablePadding: true,
-    label: 'Registration No',
+    label: 'Fuel Station ID',
   },
   {
-    id: 'address',
+    id: 'requestFuelType',
     numeric: false,
     disablePadding: false,
-    label: 'Address',
+    label: 'Fuel Type',
   },
   {
-    id: 'stockPetrol92',
+    id: 'deliveryDate',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 92(L)',
+    label: 'Requested Date',
   },
   {
-    id: 'stockPetrol95',
+    id: 'requestFuelAmount',
     numeric: true,
     disablePadding: false,
-    label: 'Petrol Stock 95(L)',
+    label: 'Requested Amount',
   },
   {
-    id: 'diesal',
+    id: 'deliveryStatus',
     numeric: true,
     disablePadding: false,
-    label: 'Diesal',
-  },
-  {
-    id: 'superDiesal',
-    numeric: true,
-    disablePadding: false,
-    label: 'Super Diesal',
+    label: 'Dilivery Status',
   },
   {
     id: 'action',
@@ -68,11 +63,7 @@ function ScheduleDelivery() {
         </Button>
       </div>
       <div className='table'>
-        <EnhancedTable 
-        editForm={<CreateDelivery btntext="Update"/>} 
-        tableheaders={headCells} 
-        tableTitle="Delivery Schedule" 
-        formTitle="Edit Schedule"/>
+        <DeliveryScheduleList headers={headCells}/>
       </div>
       <Popup
       title="Schedule a Delivery"
