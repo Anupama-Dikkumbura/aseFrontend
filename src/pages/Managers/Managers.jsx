@@ -47,64 +47,11 @@ const headCells = [
   },
 ];
 
-const userData = [
-  {
-    firstName: "John",
-    lastName: "Wick",
-    address: "Homagama",
-    phone: "0791233212",
-    fuelStation: "Petta",
-    role: "filling station manager"
-  },
-  {
-    firstName: "Harry",
-    lastName: "Potter",
-    address: "Kahawatta",
-    phone: "0782133322",
-    fuelStation: "Rathnapura",
-    role: "filling station manager"
-  },
-  {
-    firstName: "Tony",
-    lastName: "Stark",
-    address: "Wellawaya",
-    phone: "075212321",
-    fuelStation: "Thanamalwila",
-    role: "filling station manager"
-  },
-  {
-    firstName: "Peter",
-    lastName: "Parker",
-    address: "Kandy",
-    phone: "0791233020",
-    fuelStation: "Gampola",
-    role: "filling station manager"
-  },
-  {
-    firstName: "Natasha",
-    lastName: "Perera",
-    address: "Vavuniya",
-    phone: "075312312",
-    fuelStation: "Jaffna",
-    role: "filling station manager"
-  }
-];
-
 function Managers() {
   const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const getUsers = async ()=>{
-    setLoading(true);
-    await axios.get(GET_ALL_USERS)
-    .then(res=>{
-      setResult(res.data);
-      setLoading(false);
-      console.log(res.data);
-    });
-  };
 
   const handleCreate = ()=>{
       return "Test"
@@ -122,8 +69,7 @@ function Managers() {
         </Button>
       </div>
       <div className='table'>
-        <ManagersList 
-          userData={userData}
+        <ManagersList
           tableheaders={headCells} />
       </div>
       <Popup

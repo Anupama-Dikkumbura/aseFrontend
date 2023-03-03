@@ -11,19 +11,20 @@ const REGISTER_VEHICLE = "/vehicle/register"
 
 const theme = createTheme();
 
-export default function CreateVehicles(props) {
-  const [vehicleNumber, setVehicleNumber] = useState("");
-  const [vehicleType, setVehicleType] = useState('');
-  const [fuelType, setFuelType] = useState('');
-  const userId = localStorage.getItem("userID");
+export default function UpdateVehicle(props) {
+  const [vehicleNumber, setVehicleNumber] = useState(props.data.vehicleNumber)
+  const [vehicleType, setVehicleType] = useState(props.data.vehicleType);
+  const [fuelType, setFuelType] = useState(props.data.fuelType);
 
-  const handleSubmit = async (event) => {
+
+  const handleUpdate = async (event) => {
     event.preventDefault();
     const vehicle = {
       "vehicleNumber":vehicleNumber,
+      "quota":10,
       "vehicleType":vehicleType,
       "fuelType":fuelType,
-      "user": userId
+      "user": "63feac3ee740360349adfda9"
     }
     try {
       // make axios post request
@@ -34,11 +35,11 @@ export default function CreateVehicles(props) {
             "Content-Type": "application/json",
           }
         }).then(resp =>{
-          
+
+          props.setOpenModal(false);
+          window.location.reload(false);
           console.log(JSON.stringify(resp?.data));
         })
-        props.setOpenModal(false);
-        window.location.reload(false);
       
     } catch(error) {
       console.log(error)
@@ -67,7 +68,7 @@ export default function CreateVehicles(props) {
             alignItems: 'center',
           }}
         >
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleUpdate} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="dense"
               required
@@ -75,6 +76,7 @@ export default function CreateVehicles(props) {
               id="vehicleNumber"
               label="Vehicle Number"
               name="vehicleNumber"
+              disabled={true}
               autoFocus
               value={vehicleNumber}
               onChange={handleVehicleNumberChange}

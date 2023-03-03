@@ -5,32 +5,54 @@ import axios from "../../api/axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Popup from '../Popup/Popup';
-const GET_ALL_USERS= "/users";
+const GET_REQUESTS= "/customerreq";
+const DELETE_REQ= "/customerreq/";
+const GET_VEHICLES = "/vehicle";
 const GET_STATION_LIST_URL= "/fuelstation";
 
 
 function FuelRequestList(props) {
   //const [data, setData] = useState([]);
   const [fuelStationList, setFuelStationList] = useState([]);
+  const [vehicleList, setVehicleList] = useState([]);
+  const [vehicleNumber, setVehicleNumber] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
-    console.log(props.data);
+  
+  const getRequests = async ()=>{
+    setLoading(true);
+    await axios.get(GET_REQUESTS)
+    .then(res=>{
+      setResult(res.data);
+      setLoading(false);
+    });
+  };
+  const getVehicles = async ()=>{
+    setLoading(true);
+    await axios.get(GET_VEHICLES)
+    .then(res=>{
+      setResult(res.data.vehicles);
+      console.log(res.data);
+      setLoading(false);
+    });
+  };
+  const handleDelete = async(requestID) => {
+    await axios.delete(`${DELETE_REQ}${requestID}`)
+        .then( resp => {
+            setResult([]);
+            console.log(resp.message);
+            getRequests();
+        })
+        .catch( err => console.error );
+  }
 
-//   const handleDelete = async(regnumber) => {
-
-//     await axios.delete(`${DELETE_STATION_URL}${regnumber}`)
-//         .then( resp => {
-//             setResult([]);
-//             console.log(resp.message);
-//             getStations();
-//         })
-//         .catch( err => console.error );
-//   }
-
-//   useEffect(() => {
-//     getUsers();
-//   }, []);
+  useEffect(() => {
+    getRequests();
+  }, []);
+  useEffect(() => {
+    getVehicles();
+  }, []);
 
   return (
     <TableContainer style={{alignItems:"center"}}>
@@ -43,22 +65,24 @@ function FuelRequestList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-            {(props.data).map((request) => (
+            {result?.length > 0? (result).map((request) =>{
+              return(
               <TableRow>
-                <TableCell>{request.vehicleNumber}</TableCell>
-                <TableCell>{request.fuelType}</TableCell>
-                <TableCell>{request.fillingDate}</TableCell>
-                <TableCell>{request.fillingTime}</TableCell>
-                <TableCell>{request.requestedAmount}</TableCell>
-                <TableCell>{request.notifications}</TableCell>
+                <TableCell>{request.vehicleNumber.vehicleNumber}</TableCell>
+                <TableCell>{request.requestFuelType}</TableCell>
+                <TableCell>Colombo</TableCell>
+                <TableCell>{request.expectedFillingDate}</TableCell>
+                <TableCell>{request.expectedFillingTime}</TableCell>
+                <TableCell>{request.requestQuota}</TableCell>
+                <TableCell>{request.notification}</TableCell>
                 <TableCell>{request.paymentStatus}</TableCell>
-                <TableCell>{request.requestStatus}</TableCell>
+                <TableCell>{request.status}</TableCell>
                 <TableCell>{<div className='actionButtons'>
                     <Link>
                       <EditIcon/></Link>
-                    <Link ><DeleteIcon/></Link></div>}</TableCell>
+                    <Link onClick={()=> handleDelete(request._id)} ><DeleteIcon/></Link></div>}</TableCell>
               </TableRow>
-          ))}
+          )}):""}
           
         </TableBody>
 

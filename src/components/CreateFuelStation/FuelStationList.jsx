@@ -24,8 +24,8 @@ function FuelStationList(props) {
       setLoading(false);
     });
   };
+  
   const handleDelete = async(regnumber) => {
-
     await axios.delete(`${DELETE_STATION_URL}${regnumber}`)
         .then( resp => {
             setResult([]);
@@ -58,8 +58,8 @@ function FuelStationList(props) {
               <TableRow key={station._id}>
                 <TableCell>{station.registrationNumber}</TableCell>
                 <TableCell>{station.address}</TableCell>
-                <TableCell>{station.stockPetrol92}</TableCell>
-                <TableCell>{station.stockPetrol95}</TableCell>
+                <TableCell>{station.petrol92}</TableCell>
+                <TableCell>{station.petrol95}</TableCell>
                 <TableCell>{station.diesal}</TableCell>
                 <TableCell>{station.superDiesal}</TableCell>
                 <TableCell>{<div className='actionButtons'>

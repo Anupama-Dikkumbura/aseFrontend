@@ -13,8 +13,8 @@ const theme = createTheme();
 export default function UpdateFuelStation(props) {
 
   const[newAddress, setNewAddress] = useState(props.data.address);
-  const[newStockPetrol92, setStockPetrol92] = useState(props.data.stockPetrol92);
-  const[newStockPetrol95, setStockPetrol95] = useState(props.data.stockPetrol95);
+  const[newStockPetrol92, setStockPetrol92] = useState(props.data.petrol92);
+  const[newStockPetrol95, setStockPetrol95] = useState(props.data.petrol95);
   const[newDiesal, setDiesal] = useState(props.data.diesal);
   const[newSuperDiesal, setSuperDiesal] = useState(props.data.superDiesal);
   const regnumber = props.data.registrationNumber;
@@ -39,8 +39,15 @@ export default function UpdateFuelStation(props) {
   const handleUpdate = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const station = {
+      "address": newAddress,
+      "petrol92": newStockPetrol92,
+      "petrol95": newStockPetrol95,
+      "diesal": newDiesal,
+      "superDiesal": newSuperDiesal
+    }
     await axios.put(`${UPDATE_FUEL_URL}${regnumber}`, 
-      data,
+      station,
       {
         headers:{
           "Content-Type": "application/json",

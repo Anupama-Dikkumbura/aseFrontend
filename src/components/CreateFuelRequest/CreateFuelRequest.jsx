@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,34 +9,103 @@ import { Box, InputLabel, MenuItem, Select } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import axios from '../../api/axios';
+const GET_STATION_LIST_URL= "/fuelstation";
+const GET_VEHICLES = "/vehicle/";
+const FUEL_REQ='/customerreq'
 
 
 const theme = createTheme();
+  
 
 export default function CreateFuelRequest(props) {
-  const handleSubmit = (event) => {
+
+  const [fuelStationList, setFuelStationList] = useState([]);
+  const [vehicleList, setVehicleList]=useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [vehicle, setVehicle] = useState('');
+  const [fuelStation, setFuelStation] = useState('');
+  const [dateTime, setDateTime] = useState(dayjs('2023-03-04T21:11:54'));
+  const [fuelAmount, setFuelAmount] = useState('');
+  const [notifications, setNotifications] = useState('');
+
+  const handleVehicleChange = (event) => {
+    setVehicle(event.target.value);
+  };
+  const handleFuelStationChange = (event) => {
+    setFuelStation(event.target.value);
+  };
+  const handleFuelAmountChange = (event) => {
+    setFuelAmount(event.target.value);
+  };
+  const handleNotificationsChange = (event) => {
+    setNotifications(event.target.value);
+  };
+  const handleDateTimeChange = (dateTime) => {
+    setDateTime(dateTime);
+  };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const  request = {
+      vehicleNumber: vehicle,
+      requestFuelType:"petrol92",
+      requestFuelStation: fuelStation,
+      requestQuota: fuelAmount,
+      expectedFillingTime :dateTime,
+      expectedFillingDate :dateTime,
+      notification: notifications,
+      user: localStorage.getItem("userID")
+
+    }
+    try {
+      // make axios post request
+      const response = await axios.post (FUEL_REQ,
+        // JSON.stringify({phone: phone,password: password})
+        request,
+        {
+          headers:{
+            "Content-Type": "application/json",
+          }
+        });
+        props.setOpenModal(false);
+        console.log(JSON.stringify(response?.data));
+        const role = response?.data?.role;
+        console.log(role);
+        window.location.reload(false);
+      
+    } catch(error) {
+      console.log(error)
+    }
+  };
+
+  const getStations = async ()=>{
+    setLoading(true);
+    await axios.get(GET_STATION_LIST_URL)
+    .then(res=>{
+      setFuelStationList(res.data);
+      console.log(res.data);
+      setLoading(false);
     });
   };
 
-  const [vehicleType, setVehicleType] = React.useState('');
-  const [notification, setNotification] = React.useState('');
-  const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const getVehicles = async ()=>{
+    setLoading(true);
+    await axios.get(GET_VEHICLES)
+    .then(res=>{
+      setVehicleList(res.data.vehicles);
+      console.log(res.data);
+      setLoading(false);
+    });
+  };
 
-  const handleVehicleTypeChange = (event) => {
-    setVehicleType(event.target.value);
-  };
-  const handleNotificationSelect = (event) => {
-    setNotification(event.target.value);
-  };
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  useEffect(() => {
+    getStations();
+  }, []);
+
+  useEffect(() => {
+    getVehicles();
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -50,41 +119,44 @@ export default function CreateFuelRequest(props) {
             alignItems: 'center',
           }}
         >
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit}  noValidate sx={{ mt: 1 }}>
             
             <InputLabel id="vehicleLabel">Vehicle</InputLabel>
             <Select
                 labelId="vehicle"
                 id="vehicle"
-                value={vehicleType}
-                label="Vehicle"
-                onChange={handleVehicleTypeChange}
-                
-                
+                value={vehicle}
+                onChange={handleVehicleChange}
             >
-                <MenuItem value={"two-wheelers"}>CAE1223</MenuItem>
-                <MenuItem value={"heavy"}>Heavy</MenuItem>
+                {loading &&
+                    <MenuItem>Loading....</MenuItem>}
+               { !loading &&
+              
+              vehicleList.filter(v => v.user ===localStorage.getItem("userID"))
+              .map((vehicle) => (
+              <MenuItem key={vehicle._id} value={vehicle._id}>{vehicle.vehicleNumber}</MenuItem>
+          ))}
             </Select>
             <InputLabel margin='normal' id="fuelStationLabel">Fuel Station</InputLabel>
             <Select
                 labelId="fuelStation"
                 id="fuelStation"
-                value={vehicleType}
-                label="Fuel Station"
-                onChange={handleVehicleTypeChange}
-                
-                
+                value={fuelStation}
+                onChange={handleFuelStationChange}
             >
-                <MenuItem value={"two-wheelers"}>Galle</MenuItem>
-                <MenuItem value={"three-wheelers"}>Matara</MenuItem>
-                <MenuItem value={"four-wheelers"}>Four Wheeler</MenuItem>
-                <MenuItem value={"heavy"}>Heavy</MenuItem>
+                {loading &&
+                    <MenuItem>Loading....</MenuItem>}
+               { !loading &&
+              
+                fuelStationList?.map((station) => (
+              <MenuItem key={station._id} value={station._id}>{station.address}</MenuItem>
+          ))}
             </Select>
             <br></br><br></br>
             <DateTimePicker
             label="Date&Time picker"
-            value={value}
-            onChange={handleChange}
+            value={dateTime}
+            onChange={handleDateTimeChange}
             renderInput={(params) => <TextField {...params} />}
             />
             <TextField
@@ -95,7 +167,8 @@ export default function CreateFuelRequest(props) {
               label="Fuel Amout"
               name="fuelAmount"
               type="number"
-              autoFocus
+              value={fuelAmount}
+              onChange={handleFuelAmountChange}
             />
             <Typography position="right" fontSize="15px">Remaining: 5L</Typography>
 
@@ -103,13 +176,10 @@ export default function CreateFuelRequest(props) {
             <Select
                 labelId="notification"
                 id="notification"
-                value={notification}
                 label="How you like to get notified?"
-                onChange={handleNotificationSelect}
-                
-                
+                value={notifications}
+                onChange={handleNotificationsChange}
             >
-                <MenuItem disabled="true">Select</MenuItem>
                 <MenuItem value={"sms"}>SMS</MenuItem>
                 <MenuItem value={"email"}>Email</MenuItem> 
             </Select>

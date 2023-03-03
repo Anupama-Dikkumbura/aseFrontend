@@ -18,7 +18,7 @@ const headCells = [
     id: 'fuelType',
     numeric: false,
     disablePadding: false,
-    label: 'fuelType',
+    label: 'Fuel Type',
   },
   {
     id: 'fuelStation',
@@ -70,31 +70,6 @@ const headCells = [
   },
 ];
 
-const data = [
-  {
-    vehicleNumber: "CAE1223",
-    fuelType: "petrol",
-    notifications: "sms",
-    fuelStation: "Galle",
-    requestedAmount: "5",
-    fillingDate: "05-03-2023",
-    fillingTime: "0930",
-    requestStatus: "taken",
-    paymentStatus: "paid",
-
-  },
-  {
-    vehicleNumber: "BD1223",
-    fuelType: "diesal",
-    notifications: "email",
-    fuelStation: "mathara",
-    requestedAmount: "4",
-    fillingDate: "10-03-2023",
-    fillingTime: "1930",
-    requestStatus: "untaken",
-    paymentStatus: "pending",
-  }
-];
 
 function FuelRequests() {
   const [openModal, setOpenModal] = useState(false);
@@ -114,16 +89,11 @@ function FuelRequests() {
         </Button>
       </div>
       <div className='table'>
-        {/* <EnhancedTable 
-        editForm={<CreateFuelRequest btntext="Update"/>} 
-        tableheaders={headCells} 
-        tableTitle="Fuel Requests" 
-        formTitle="Edit Fuel Request"/> */}
-        <FuelRequestList data={data} headers={headCells}/>
+        <FuelRequestList headers={headCells}/>
       </div>
       <Popup
       title="Create Fuel Request"
-      children={<CreateFuelRequest btntext="Request"/>}
+      children={<CreateFuelRequest btntext="Request" openModal={openModal} setOpenModal={setOpenModal}/>}
       openModal={openModal}
       setOpenModal={setOpenModal}
       >

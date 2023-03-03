@@ -37,21 +37,6 @@ const headCells = [
 ];
 
 
-const vdata = [
-  {
-    vehicleNumber: "CAE1223",
-    quota: "4",
-    vehicleType: "four-wheelers",
-    fuelType: "petrol",
-  },
-  {
-    vehicleNumber: "BD1223",
-    quota: "4",
-    vehicleType: "two-wheelers",
-    fuelType: "petrol",
-  }
-];
-console.log(vdata);
 function CustomerVehicles() {
   const [openModal, setOpenModal] = useState(false);
   const handleCreate = ()=>{
@@ -75,11 +60,11 @@ function CustomerVehicles() {
             tableheaders={headCells} 
             tableTitle="Vehicles"
             formTitle="Edit Vehicle"/> */}
-          <VehicleList tableheaders={headCells} vdata={vdata} />
+          <VehicleList tableheaders={headCells} />
       </div>
       <Popup
       title="Create a Vehicle"
-      children={<CreateVehicles btntext="Create"/>}
+      children={<CreateVehicles btntext="Create" openModal={openModal} setOpenModal={setOpenModal}/>}
       openModal={openModal}
       setOpenModal={setOpenModal}
       >

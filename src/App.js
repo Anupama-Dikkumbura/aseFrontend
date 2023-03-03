@@ -16,6 +16,7 @@ import ScheduleDelivery from './pages/scheduleDelivery/ScheduleDelivery';
 import CustomerRequests from './pages/customerRequests/CustomerRequests';
 import Fill from './pages/fill/Fill';
 import Reports from './pages/Reports/Reports';
+import SignOut from './components/SignOut/SignOut';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/admin" element={<AdminLogin/>} />
+            <Route path="/signout" element={<SignOut/>}/>
             <Route path="/fuelstationlogin" element={<FuelStationLogin/>} />
             <Route path="/dashboard" element={<Dashboard content={<DashboardContent />} pageTitle="Dashboard"/>} />
             <Route path="/reports" element={<Dashboard content={<Reports />} pageTitle="Reports"/>} />

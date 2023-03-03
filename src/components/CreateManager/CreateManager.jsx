@@ -57,7 +57,7 @@ const navigate = useNavigate();
         console.log(JSON.stringify(response?.data));
         const role = response?.data?.role;
         console.log(role);
-        navigate("/managers");
+        window.location.reload(false);
       
     } catch(error) {
       console.log(error)
@@ -77,6 +77,7 @@ const navigate = useNavigate();
   
 
   const handleFuelStationChange = (event) => {
+    console.log(event.target.value)
     setFuelStation(event.target.value);
   };
   const handleFirstNameChange = (event) => {
@@ -147,15 +148,6 @@ const navigate = useNavigate();
               name="phone"
               onChange={handlePhoneChange}
             />
-            <TextField
-              margin="dense"
-              required
-              fullWidth
-              id="password"
-              label="Password"
-              name="password"
-              onChange={handlePasswordChange}
-            />
             <InputLabel id="fuelStationLabel">Fuel Station</InputLabel>
             <Select
                 labelId="fuelStation"
@@ -169,11 +161,20 @@ const navigate = useNavigate();
                { !loading &&
               
                 fuelStationList?.map((station) => (
-              <MenuItem value={station._id}>{station.address}</MenuItem>
+              <MenuItem key={station._id} value={station._id}>{station.address}</MenuItem>
           ))}
-              
-                <MenuItem value={12}>asd</MenuItem>
             </Select>
+
+            <TextField
+              margin="dense"
+              required
+              fullWidth
+              id="password"
+              label="Password"
+              name="password"
+              type="password"
+              onChange={handlePasswordChange}
+            />
             <Button
               type="submit"
               fullWidth

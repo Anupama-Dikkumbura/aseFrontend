@@ -71,8 +71,17 @@ export default function Login() {
           headers:{
             "Content-Type": "application/json",
           }
-        });
+        }).then((res)=>{
+          localStorage.setItem("userID", res.data._id);
+          localStorage.setItem("firstName", res.data.firstName);
+          localStorage.setItem("lastName", res.data.lastName);
+          localStorage.setItem("phone", res.data.phone);
+          localStorage.setItem("address", res.data.address);
+          localStorage.setItem("role", res.data.role);
+          localStorage.setItem("fuelStation", res?.data?.fuelStation);
+        })
         console.log(JSON.stringify(response?.data));
+        
         const role = response?.data?.role;
 
         //set in redux

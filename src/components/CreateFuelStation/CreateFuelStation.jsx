@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,33 +6,66 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "../../api/axios";
-const CREATE_FUEL_URL="/fuelstation";
+const CREATE_FUEL_URL="/fuelStation";
 
 const theme = createTheme();
 
 export default function CreateFuelStation(props) {
+
+  const [registrationNumber, setRegistrationNumber] = useState("");
+  const [address, setAddress] = useState("")
+  const [stockPetrol92, setStockPetrol92] = useState("")
+  const [stockPetrol95, setStockPetrol95] = useState("")
+  const [diesal, setDiesal] = useState("")
+  const [superDiesal, setSuperDiesal] = useState("")
+
+  const handleRegistrationNumberChange = (event) => {
+    setRegistrationNumber(event.target.value);
+  };
+  const handleAddressChange= (event) => {
+    setAddress(event.target.value);
+  };
+  const handleStockPetrol92Change = (event) => {
+    setStockPetrol92(event.target.value);
+  };
+  const handleStockPetrol95Change = (event) => {
+    setStockPetrol95(event.target.value);
+  };
+  const handleDiesalChange = (event) => {
+    setDiesal(event.target.value);
+  };
+  const handleSuperDiesalChange = (event) => {
+    setSuperDiesal(event.target.value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const station = {
+      "registrationNumber": registrationNumber,
+      "address": address,
+      "petrol92": stockPetrol92,
+      "petrol95": stockPetrol95,
+      "diesal": diesal,
+      "superDiesal": superDiesal
+    }
     try {
       // make axios post request
       const response = await axios.post (CREATE_FUEL_URL,
-        data,
+        station,
         {
           headers:{
             "Content-Type": "application/json",
           }
-        }).
-        then(resp =>{
+        }).then(resp =>{
+
           props.setOpenModal(false);
+          window.location.reload(false);
           console.log(JSON.stringify(resp?.data));
         })
-        
       
     } catch(error) {
       console.log(error)
     }
-    console.log(data.get('registrationNumber'));
   };
 
 
@@ -56,6 +89,8 @@ export default function CreateFuelStation(props) {
               label="Registration Number"
               name="registrationNumber"
               autoFocus
+              value={registrationNumber}
+              onChange={handleRegistrationNumberChange}
             />
             <TextField
               margin="dense"
@@ -65,6 +100,8 @@ export default function CreateFuelStation(props) {
               label="Address"
               type="text"
               id="address"
+              value={address}
+              onChange={handleAddressChange}
             />
             <TextField
               margin="dense"
@@ -74,6 +111,8 @@ export default function CreateFuelStation(props) {
               label="Petrol Stock 92(L)"
               type="number"
               id="stockPetrol92"
+              value={stockPetrol92}
+              onChange={handleStockPetrol92Change}
             />
             <TextField
               margin="dense"
@@ -83,6 +122,8 @@ export default function CreateFuelStation(props) {
               label="Petrol Stock 95(L)"
               type="number"
               id="stockPetrol95"
+              value={stockPetrol95}
+              onChange={handleStockPetrol95Change}
             />
             <TextField
               margin="dense"
@@ -92,6 +133,8 @@ export default function CreateFuelStation(props) {
               label="Diseal Stock(L)"
               type="number"
               id="diesal"
+              value={diesal}
+              onChange={handleDiesalChange}
             />
             <TextField
               margin="dense"
@@ -101,6 +144,8 @@ export default function CreateFuelStation(props) {
               label="Super Diesal(L)"
               type="number"
               id="superDiesal"
+              value={superDiesal}
+              onChange={handleSuperDiesalChange}
             />
             <Button
               type="submit"

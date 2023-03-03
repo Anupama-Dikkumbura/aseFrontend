@@ -18,45 +18,35 @@ function ManagersList(props) {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const getUsers = async ()=>{
-    setLoading(true);
+  const getManagers = async ()=>{
     await axios.get(GET_ALL_USERS)
     .then(res=>{
       setResult(res.data);
+    });
+  };
+
+  const getStations = async ()=>{
+    setLoading(true);
+    await axios.get(GET_STATION_LIST_URL)
+    .then(res=>{
+      setFuelStationList(res.data);
       setLoading(false);
     });
   };
 
-  function getFuelStationName(id){
-    axios.get(GET_STATION_LIST_URL)
-    .then(res=>{
-      setFuelStationList(res.data);
-    });
+  // const handleDelete = async(id) => {
+  //   await axios.delete(`${DELETE_STATION_URL}${id}`)
+  //       .then( resp => {
+  //           setResult([]);
+  //           console.log(resp.message);
+  //           getStations();
+  //       })
+  //       .catch( err => console.error );
+  // }
 
-    const ff = (fuelStationList)=>{
-        fuelStationList.map((station)=>{
-            if(station.id == id){
-                // return station.address;
-            }
-        })
-    }
-
-
-  };
-//   const handleDelete = async(regnumber) => {
-
-//     await axios.delete(`${DELETE_STATION_URL}${regnumber}`)
-//         .then( resp => {
-//             setResult([]);
-//             console.log(resp.message);
-//             getStations();
-//         })
-//         .catch( err => console.error );
-//   }
-
-//   useEffect(() => {
-//     getUsers();
-//   }, []);
+  useEffect(() => {
+    getManagers();
+  }, []);
 
   return (
     <TableContainer style={{alignItems:"center"}}>
@@ -74,21 +64,33 @@ function ManagersList(props) {
             {
               !loading &&
               <>
-              {props.userData.filter(u =>u.role ==="filling station manager")
-              .map((user) => (
+              {result.filter(u =>u.role ==="filling station manager")
+              .map((user) => {
+              fuelStationList.forEach(item =>{
+                console.log("test");
+                if(item._id === user.fuelStation){
+                  setFuelStation(item.address);
+                  console.log(item);
+                }
+              })
+              return(
               <TableRow key={user._id}>
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.address}</TableCell>
                 <TableCell>{user.phone}</TableCell>
+                
                 <TableCell>{user.fuelStation}</TableCell>
+                 
+                
                 <TableCell>{<div className='actionButtons'>
                     <Link>
                       <EditIcon/></Link>
-                    <Link ><DeleteIcon/></Link></div>}</TableCell>
+                    <Link><DeleteIcon/></Link></div>}</TableCell>
               </TableRow>
-          ))}
+          )})}
               </>
+            
             }
           
         </TableBody>

@@ -1,4 +1,5 @@
 import { AddCircleRounded } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
@@ -64,6 +65,7 @@ function FuelStations(){
       setResult(res.data);
     });
   };
+  const user = useSelector((state) => state.user);
   return (
     <div className='container'>
       <div style={{marginBottom: "10px"}}>

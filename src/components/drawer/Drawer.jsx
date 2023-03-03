@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -22,7 +23,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import OilBarrelIcon from '@mui/icons-material/OilBarrel';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Drawer.css";
 import logo from "../../images/fuelinLogo.jpeg"
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
@@ -34,15 +35,20 @@ const drawerWidth = 240;
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   // filling station manager, head office,customer
-  const role = "filling station manager";
+  // const user = useSelector((state) => state.user);
+  // const role = localStorage.getItem("role");
+
+  const role = "customer";
 
   const headOfficeMenu = ()=>{
+    
     return(
         <List>
             <Link to="/dashboard" className='navigateLinks'>
@@ -152,7 +158,7 @@ function ResponsiveDrawer(props) {
                     </ListItemButton>
                 </ListItem>
             </Link>
-            <Link to="/signout" className='navigateLinks' style={{bottom:"20"}}>
+            <Link to="/signout" className='navigateLinks'>
                 <ListItem disablePadding>
                     <ListItemButton>
                     <ListItemIcon>
@@ -223,7 +229,13 @@ function ResponsiveDrawer(props) {
         <LocalGasStationIcon style={{ color: 'white' }}/>
         <h1>FuelIn</h1>
       </div>
+      <div style={{textAlign: "left", margin: "10px"}}>
+        {role==="customer"? <h4>Customer</h4>:""}
+        {role==="head office"? <h4>Admin</h4>:""}
+        {role==="filling station manager"? <h4>Filling Station</h4>:""}
+      </div>
       <Divider />
+        
         {role==="customer"? customerMenu():""}
         {role==="head office"? headOfficeMenu():""}
         {role==="filling station manager"? fuelStationMenu():""}
@@ -231,8 +243,11 @@ function ResponsiveDrawer(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
+  if(role==""){
+    navigate("/login");
+  }
   return (
+    
     <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <AppBar
