@@ -9,6 +9,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Popup from '../Popup/Popup';
 import CheckIcon from '@mui/icons-material/Check';
 import QR from '../QR/QR';
+import PaymentForm from '../Payment/Payment';
+import PaymentFormModal from '../Payment/Payment';
+import Moment from 'react-moment';
 const GET_REQUESTS= "/customerreq";
 const DELETE_REQ= "/customerreq/";
 const GET_VEHICLES = "/vehicle";
@@ -16,7 +19,9 @@ const PAY = "/customerreq/customerrequest/";
 const GET_STATION_LIST_URL= "/fuelstation";
 
 
+
 function FuelRequestList(props) {
+  
   //const [data, setData] = useState([]);
   const [fuelStationList, setFuelStationList] = useState([]);
   const [vehicleList, setVehicleList] = useState([]);
@@ -27,6 +32,8 @@ function FuelRequestList(props) {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const [QRTitle,setQRTitle] = useState("");
+  const [openPaymentForm, setOpenPaymentForm] = useState(false);
+  const [requestID,setRequestID] = useState("");
   
   const getRequests = async ()=>{
     setLoading(true);
@@ -91,16 +98,20 @@ function FuelRequestList(props) {
               <TableRow>
                 <TableCell>{request.vehicleNumber.vehicleNumber}</TableCell>
                 <TableCell>{request.requestFuelType}</TableCell>
-                <TableCell>Colombo</TableCell>
-                <TableCell>{request.expectedFillingDate}</TableCell>
-                <TableCell>{request.expectedFillingTime}</TableCell>
+                <TableCell><Moment format="YYYY-MM-DD">{request.expectedFillingDate}</Moment></TableCell>
+                <TableCell><Moment format="HH:mm">{request.expectedFillingTime}</Moment></TableCell>
                 <TableCell>{request.requestQuota}</TableCell>
                 <TableCell>{request.notification}</TableCell>
                 <TableCell>{request.paymentStatus === "paid"? <h3 style={{color:"Green"}}>{request.paymentStatus}</h3>:<h3 style={{color:"orange"}}>{request.paymentStatus}</h3>}</TableCell>
                 <TableCell>{request.status}</TableCell>
-                <TableCell>{<>{request.paymentStatus=="paid"?<Link><Tooltip title="Fill"><CheckIcon /></Tooltip></Link>
-                :<Link onClick={()=>handlePayment(request._id)}>
-                      <PaidIcon/></Link>}
+                <TableCell>{<>{request.paymentStatus=="paid" && request.status!=="taken"?<Link onClick={()=>{
+                  setQROpenModal(true);
+                  setQRTitle(request.vehicleNumber.vehicleNumber);
+                  setToken(request.token)
+                }
+                }><Tooltip title="QR"><VisibilityIcon /></Tooltip></Link>
+                :""}{request.paymentStatus=="pending"?<Link onClick={()=> {setRequestID(request._id); setOpenPaymentForm(true)}}>
+                      <PaidIcon/></Link>:""}
                     <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></>}</TableCell>
               </TableRow>
           )}):<div>No records</div>}
@@ -120,6 +131,7 @@ function FuelRequestList(props) {
       token={token}
       openQRModal={openQRModal}
       setQROpenModal={setQROpenModal} />
+      <PaymentFormModal open={openPaymentForm} onClose={() => setOpenPaymentForm(false)} requestId={requestID}/>
     </TableContainer>
   );
 }

@@ -21,12 +21,6 @@ const headCells = [
     label: 'Fuel Type',
   },
   {
-    id: 'fuelStation',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fuel Station',
-  },
-  {
     id: 'fillingDate',
     numeric: true,
     disablePadding: false,

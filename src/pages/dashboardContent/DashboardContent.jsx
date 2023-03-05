@@ -77,7 +77,7 @@ function DashboardContent() {
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid  item xs={12} md={8} lg={3}>
                 
                 {/* <Paper
                   sx={{
@@ -89,6 +89,17 @@ function DashboardContent() {
                 >
                   <Chart />
                 </Paper> */}
+                {role==="filling station manager"?
+                <Paper style={{backgroundColor:"#d1cbcb"}} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <h2>Fuel Stock</h2>
+                  <div>
+                    <span><h3>Petrol 92   : 300L</h3></span>
+                    <span><h3>Petrol 94   : 220L</h3></span>
+                    <span><h3>Diesal      : 400L</h3></span>
+                    <span><h3>Super Diesal: 200L</h3></span>
+                  </div>
+                </Paper>:""
+              }
               </Grid>
               {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
@@ -103,6 +114,8 @@ function DashboardContent() {
                   <Deposits />
                   <QR />
                 </Paper> */}
+
+
               </Grid>
               {/* Recent Orders */}
               <Grid item xs={12}>
@@ -120,6 +133,15 @@ function DashboardContent() {
                   <RecentRequestsFromHeadOffice/>
                 </Paper>:""
               }
+              {
+              role==="head office"?
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Title>Recent Requests</Title>
+                  <RecentRequestsFromHeadOffice/>
+                </Paper>:""
+              }
+
+             
              
               </Grid>
             </Grid>

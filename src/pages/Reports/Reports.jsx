@@ -166,7 +166,7 @@ function Reports(){
           className='createButton'
           startIcon={<AddCircleRounded/>}
           variant='contained'
-          onClick={() => this.exportPDF()}>
+          onClick={() => exportPDF()}>
             Download
         </Button>
       </div>

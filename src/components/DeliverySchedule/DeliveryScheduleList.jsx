@@ -10,10 +10,8 @@ import Popup from '../Popup/Popup';
 import CheckIcon from '@mui/icons-material/Check';
 import QR from '../QR/QR';
 const GET_REQUESTS= "/fuelReq/";
-const DELETE_REQ= "/customerreq/";
-const GET_VEHICLES = "/vehicle";
 const PAY = "/customerreq/customerrequest/";
-const GET_STATION_LIST_URL= "/fuelstation";
+const DELIVER= "/fuelReq/delivery/";
 
 
 function DeliveryScheduleList(props) {
@@ -33,6 +31,15 @@ function DeliveryScheduleList(props) {
   };
   const handleDelete = async(requestID) => {
     await axios.delete(`${GET_REQUESTS}${requestID}`)
+        .then( resp => {
+            setResult([]);
+            console.log(resp.message);
+            getRequests();
+        })
+        .catch( err => console.error );
+  }
+  const handleDeliver = async(requestID) => {
+    await axios.post(`${DELIVER}${requestID}`)
         .then( resp => {
             setResult([]);
             console.log(resp.message);
@@ -73,7 +80,10 @@ function DeliveryScheduleList(props) {
                 <TableCell>{request.requestFuelAmount}</TableCell>
                 <TableCell>{request.deliveryStatus === "delivered"? <h3 style={{color:"Green"}}>{request.deliveryStatus}</h3>:<h3 style={{color:"orange"}}>{request.deliveryStatus}</h3>}</TableCell>
                 <TableCell>
-                    <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></TableCell>
+                {<>{request.deliveryStatus=="delivered"?""
+                :<Link onClick={()=>handleDeliver(request._id)}>
+                      <Tooltip title="Deliver"><CheckIcon/></Tooltip></Link>}
+                    <Link onClick={()=> handleDelete(request._id)}><Tooltip title="Remove"><DeleteIcon/></Tooltip></Link></>}</TableCell>
               </TableRow>
           )}):<div>No records</div>}
           

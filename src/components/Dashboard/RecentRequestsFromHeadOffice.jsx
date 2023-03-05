@@ -17,12 +17,6 @@ const GET_STATION_LIST_URL= "/fuelstation";
 
 const headCells = [
     {
-      id: 'fuelStation',
-      numeric: false,
-      disablePadding: true,
-      label: 'Fuel Station ID',
-    },
-    {
       id: 'requestFuelType',
       numeric: false,
       disablePadding: false,
@@ -105,7 +99,6 @@ function RecentRequestsFromHeadOffice(props) {
             (result).map((request) =>{
               return(
               <TableRow>
-                <TableCell>{request.fuelStation}</TableCell>
                 <TableCell>{request.requestFuelType}</TableCell>
                 <TableCell>{request.deliveryDate}</TableCell>
                 <TableCell>{request.requestFuelAmount}</TableCell>

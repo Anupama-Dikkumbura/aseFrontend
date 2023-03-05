@@ -8,6 +8,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Popup from '../Popup/Popup';
 import QR from '../QR/QR';
+import Moment from 'react-moment';
 const GET_REQUESTS= "/customerreq";
 const DELETE_REQ= "/customerreq/";
 const GET_VEHICLES = "/vehicle";
@@ -88,8 +89,8 @@ function RecentRequestsCustomer(props) {
                 <TableCell>{request.vehicleNumber.vehicleNumber}</TableCell>
                 <TableCell>{request.requestFuelType}</TableCell>
                 <TableCell>Colombo</TableCell>
-                <TableCell>{request.expectedFillingDate}</TableCell>
-                <TableCell>{request.expectedFillingTime}</TableCell>
+                <TableCell><Moment format="YYYY-MM-DD">{request.expectedFillingDate}</Moment></TableCell>
+                <TableCell><Moment format="HH:mm">{request.expectedFillingTime}</Moment></TableCell>
                 <TableCell>{request.requestQuota}</TableCell>
                 <TableCell>{request.notification}</TableCell>
                 <TableCell>{request.paymentStatus === "paid"? <h3 style={{color:"Green"}}>{request.paymentStatus}</h3>:<h3 style={{color:"orange"}}>{request.paymentStatus}</h3>}</TableCell>
